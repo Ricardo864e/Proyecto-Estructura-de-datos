@@ -8,6 +8,7 @@ package proyecto.estructura.de.datos;
  * Sirve para guardar elementos dinámicamente sin tener que usar <i> ArrayList </i>.
  * Como se uso T podemos reutilizar esta misma lista para guardar (Strings, Enteros, Estaciones, Aristas).
  * @author FO, JV, RP
+ * @param <T>
  */
 public class ListaEnlazada<T> {
     Nodo<T> cabeza; // Apunta al primer nodo que tiene la lista.
