@@ -6,7 +6,7 @@ package proyecto.estructura.de.datos;
 
 /**
  *
- * @author FO, JV, RP
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  * @param <T>
  */
 public class Estacion<T> {

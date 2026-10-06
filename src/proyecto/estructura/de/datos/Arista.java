@@ -6,7 +6,7 @@ package proyecto.estructura.de.datos;
 
 /**
  *
- * @author FO, JV, RP
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Arista {
     String id_destino;

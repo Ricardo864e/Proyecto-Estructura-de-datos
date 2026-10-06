@@ -7,12 +7,12 @@ package proyecto.estructura.de.datos;
 /** <b> Clase ListaEnlazada. </b>
  * Sirve para guardar elementos dinámicamente sin tener que usar <i> ArrayList </i>.
  * Como se uso T podemos reutilizar esta misma lista para guardar (Strings, Enteros, Estaciones, Aristas).
- * @author FO, JV, RP
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  * @param <T>
  */
 public class Lista<T> {
     Nodo<T> primero; // Apunta al primer nodo que tiene la lista.
-    int head; // Lleva la cuenta del tama&ntildeo de la lista.
+    int head; // Lleva la cuenta del tama&ntilde;o de la lista.
     
     /** Constructor de la lista.
      * La lista inicia vacia.
@@ -43,7 +43,7 @@ public class Lista<T> {
     
     /** Busca el valor a eliminar y si lo encuentra lo elimina.
      * @param dato Es el elemento a eliminar.
-     * @return true si lo encontr&oacute y lo borr&oacute, false si no estaba en la lista.
+     * @return true si lo encontr&oacute y lo borr&oacute;, false si no estaba en la lista.
      * 
      */
     public boolean Eliminar(T dato){
@@ -73,7 +73,7 @@ public class Lista<T> {
     
     /** Devuelve el elemento a buscar.
      * @param posicion La posición del elemento que buscamos, que empieza en 0 no en 1.
-     * @return El elemento en esa posición, o null si la posición esta fuera de rango.
+     * @return El elemento en esa posici&oacute;n, o null si la posición esta fuera de rango.
      */
     public T Agarrar(int posicion){
         if(posicion < 0 || posicion >= head){
@@ -90,7 +90,7 @@ public class Lista<T> {
     
     /** Revisa si un elemento est&aacute dentro de la lista.
      * @param dato El elemento que estamos buscando.
-     * @return true si el elemento está en la lista, false si no se est&aacute.
+     * @return true si el elemento está en la lista, false si no se est&aacute;.
      */
     public boolean Contiene(T dato){
         if(primero == null){
@@ -110,15 +110,15 @@ public class Lista<T> {
     }
     
     /** Devuelve el tama&ntildeo de la lista.
-     * @return El tama&ntildeo de la lista, en si la cantidad de elemntos.
+     * @return El tama&ntilde;o de la lista, en si la cantidad de elemntos.
      */
     public int Tamano(){
         return head;
     }
     
-    /** Indica si la lista est&aacute vacia, o no.
+    /** Indica si la lista est&aacute; vacia, o no.
      * 
-     * @return true si no tiene ning&uacuten elemento, false si tiene elementos.
+     * @return true si no tiene ning&uacute;n elemento, false si tiene elementos.
      */
     public boolean EsVacia(){
         return head == 0;
