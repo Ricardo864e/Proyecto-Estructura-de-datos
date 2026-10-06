@@ -12,14 +12,14 @@ package proyecto.estructura.de.datos;
  */
 public class Lista<T> {
     Nodo<T> primero; // Apunta al primer nodo que tiene la lista.
-    int head; // Lleva la cuenta del tama&ntilde;o de la lista.
+    int iN; // Lleva la cuenta del tama&ntilde;o de la lista.
     
     /** Constructor de la lista.
      * La lista inicia vacia.
      */
     public Lista(){
         this.primero = null;
-        this.head = 0;
+        this.iN = 0;
     }
     
     /** Ingresa o agrega un nuevo elemento al final de la lista.
@@ -29,7 +29,7 @@ public class Lista<T> {
         Nodo nuevo = new Nodo(dato);
         if(primero == null){
             primero = nuevo;
-            head += 1;
+            iN += 1;
         }
         else{
             Nodo aux = primero;
@@ -37,7 +37,7 @@ public class Lista<T> {
                 aux = aux.siguiente;
             }
             aux.siguiente = nuevo;
-            head += 1;
+            iN += 1;
         }
     }
     
@@ -52,7 +52,7 @@ public class Lista<T> {
         }
         else if(primero.dato.equals(dato)){ // Revisamos si es la cabeza, ya que si lo es se elimina de forma distinta al resto.
             primero = primero.siguiente;
-            head -= 1;
+            iN -= 1;
             return true;
         }
         else{
@@ -65,7 +65,7 @@ public class Lista<T> {
             }
             else{
                 prueba.siguiente = prueba.siguiente.siguiente; //Si esta el dato en la lista.
-                head -= 1;
+                iN -= 1;
                 return true;
             }
         }
@@ -76,7 +76,7 @@ public class Lista<T> {
      * @return El elemento en esa posici&oacute;n, o null si la posición esta fuera de rango.
      */
     public T Agarrar(int posicion){
-        if(posicion < 0 || posicion >= head){
+        if(posicion < 0 || posicion >= iN){
             return null;
         }
         else{
@@ -113,7 +113,7 @@ public class Lista<T> {
      * @return El tama&ntilde;o de la lista, en si la cantidad de elemntos.
      */
     public int Tamano(){
-        return head;
+        return iN;
     }
     
     /** Indica si la lista est&aacute; vacia, o no.
@@ -121,6 +121,6 @@ public class Lista<T> {
      * @return true si no tiene ning&uacute;n elemento, false si tiene elementos.
      */
     public boolean EsVacia(){
-        return head == 0;
+        return iN == 0;
     }
 }
