@@ -121,11 +121,6 @@ public class ListaEnlazada<T> {
      * @return true si no tiene ning&uacuten elemento, false si tiene elementos.
      */
     public boolean EsVacia(){
-        if(tamano == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return tamano == 0;
     }
 }
