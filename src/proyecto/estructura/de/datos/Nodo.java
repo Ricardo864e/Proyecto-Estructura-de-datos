@@ -4,12 +4,11 @@
  */
 package proyecto.estructura.de.datos;
 
-/**
- * Clase Nodo.
+/** Clase Nodo.
  * Esta clase es la base para construir las listas enlazadas y las colas del proyecto.
- * Usamos T para que sirva para guardar cualquier tipo de dato (Estaciones, Aristas, Strings, etc.)
- * sin tener que crear mil clases nodo para cada uno.
- * @author ricardopereira
+ * Usamos T para que el nodo pueda guardar cualquier tipo de dato (Strings, Enteros, Estaciones, Aristas...).
+ * Sin tener que crear muchas clases nodo para cada uno.
+ * @author FO, JV, RP
  */
 public class Nodo<T>{
     T dato;
