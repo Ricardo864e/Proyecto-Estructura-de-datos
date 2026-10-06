@@ -11,15 +11,15 @@ package proyecto.estructura.de.datos;
  * @param <T>
  */
 public class ListaEnlazada<T> {
-    Nodo<T> cabeza; // Apunta al primer nodo que tiene la lista.
-    int tamano; // Lleva la cuenta del tama&ntildeo de la lista.
+    Nodo<T> primero; // Apunta al primer nodo que tiene la lista.
+    int head; // Lleva la cuenta del tama&ntildeo de la lista.
     
     /** Constructor de la lista.
      * La lista inicia vacia.
      */
     public ListaEnlazada(){
-        this.cabeza = null;
-        this.tamano = 0;
+        this.primero = null;
+        this.head = 0;
     }
     
     /** Ingresa o agrega un nuevo elemento al final de la lista.
@@ -27,17 +27,17 @@ public class ListaEnlazada<T> {
      */
     public void Insertar(T dato){
         Nodo nuevo = new Nodo(dato);
-        if(cabeza == null){
-            cabeza = nuevo;
-            tamano += 1;
+        if(primero == null){
+            primero = nuevo;
+            head += 1;
         }
         else{
-            Nodo aux = cabeza;
+            Nodo aux = primero;
             while(aux.siguiente != null){
                 aux = aux.siguiente;
             }
             aux.siguiente = nuevo;
-            tamano += 1;
+            head += 1;
         }
     }
     
@@ -47,16 +47,16 @@ public class ListaEnlazada<T> {
      * 
      */
     public boolean Eliminar(T dato){
-        if(cabeza == null){
+        if(primero == null){
             return false;
         }
-        else if(cabeza.dato.equals(dato)){ // Revisamos si es la cabeza, ya que si lo es se elimina de forma distinta al resto.
-            cabeza = cabeza.siguiente;
-            tamano --;
+        else if(primero.dato.equals(dato)){ // Revisamos si es la cabeza, ya que si lo es se elimina de forma distinta al resto.
+            primero = primero.siguiente;
+            head -= 1;
             return true;
         }
         else{
-            Nodo prueba = cabeza;
+            Nodo prueba = primero;
             while(prueba.siguiente != null && !prueba.siguiente.dato.equals(dato)){
                 prueba = prueba.siguiente;
             }
@@ -65,7 +65,7 @@ public class ListaEnlazada<T> {
             }
             else{
                 prueba.siguiente = prueba.siguiente.siguiente; //Si esta el dato en la lista.
-                tamano -= 1;
+                head -= 1;
                 return true;
             }
         }
@@ -76,11 +76,11 @@ public class ListaEnlazada<T> {
      * @return El elemento en esa posición, o null si la posición esta fuera de rango.
      */
     public T Agarrar(int posicion){
-        if(posicion < 0 || posicion >= tamano){
+        if(posicion < 0 || posicion >= head){
             return null;
         }
         else{
-            Nodo<T> aux = cabeza;
+            Nodo<T> aux = primero;
             for(int i = 0; i < posicion; i += 1){
                 aux = aux.siguiente;
             }
@@ -93,11 +93,11 @@ public class ListaEnlazada<T> {
      * @return true si el elemento está en la lista, false si no se est&aacute.
      */
     public boolean Contiene(T dato){
-        if(cabeza == null){
+        if(primero == null){
             return false;
         }
         else{
-            Nodo<T> aux = cabeza;
+            Nodo<T> aux = primero;
             while(aux != null){
                 if(aux.dato.equals(dato)){
                     return true;
@@ -113,7 +113,7 @@ public class ListaEnlazada<T> {
      * @return El tama&ntildeo de la lista, en si la cantidad de elemntos.
      */
     public int Tamano(){
-        return tamano;
+        return head;
     }
     
     /** Indica si la lista est&aacute vacia, o no.
@@ -121,6 +121,6 @@ public class ListaEnlazada<T> {
      * @return true si no tiene ning&uacuten elemento, false si tiene elementos.
      */
     public boolean EsVacia(){
-        return tamano == 0;
+        return head == 0;
     }
 }
