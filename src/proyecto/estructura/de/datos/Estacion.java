@@ -43,4 +43,8 @@ public class Estacion<T> {
     public int getcapacidad_pas_hr() { 
         return capacidad_pas_hr; 
     }
+    
+    public String aCSV() {
+        return id + "," + nombre + "," + linea + "," + zona + "," + capacidad_pas_hr;
+    }
 }    
