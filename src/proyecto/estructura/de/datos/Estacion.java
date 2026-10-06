@@ -24,23 +24,23 @@ public class Estacion<T> {
         this.capacidad_pas_hr = capacidad_pas_hr;
     }
     
-    public String getId() { 
+    public String getid() { 
         return id; 
     }
     
-    public String getNombre() { 
+    public String getnombre() { 
         return nombre; 
     }
     
-    public String getLinea() { 
+    public String getlinea() { 
         return linea; 
     }
     
-    public String getZona() { 
+    public String getzona() { 
         return zona; 
     }
     
-    public int getCapacidad_pas_hr() { 
+    public int getcapacidad_pas_hr() { 
         return capacidad_pas_hr; 
     }
 }    
