@@ -53,6 +53,7 @@ public class ListaEnlazada<T> {
      * 
      * @param dato Es el elemento a eliminar.
      * @return true si lo encontr&oacute y lo borr&oacute, false si no estaba en la lista.
+     * 
      */
     
     public boolean Eliminar(T dato){
