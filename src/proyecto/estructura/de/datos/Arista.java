@@ -9,11 +9,19 @@ package proyecto.estructura.de.datos;
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Arista {
-    String id_destino;
+    Estacion id_destino;
     int tiempo_min;
     
-    public Arista(String id_destino, int tiempo_min){
+    public Arista(Estacion id_destino, int tiempo_min){
         this.id_destino = id_destino;
         this.tiempo_min = tiempo_min;
+    }
+    
+    public Estacion getid_destino() {
+        return id_destino;
+    }
+    
+    public int gettiempo_min(){
+        return tiempo_min;
     }
 }
