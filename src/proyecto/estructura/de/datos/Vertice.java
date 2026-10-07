@@ -29,7 +29,7 @@ public class Vertice {
     public void agregarArista(Estacion destino, int tiempoMin) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) { // Si ya existe una arista hacia ese destino, la eliminamos primero para actualizarla
             Arista uno = adyacentes.Agarrar(i);
-            if (uno.getEstacionDestino().getId().equals(destino.getId())) {
+            if (uno.getid_destino().getid().equals(destino.getid())) {
                 adyacentes.Eliminar(uno);
                 break;
             }
@@ -38,12 +38,12 @@ public class Vertice {
     }
 
     /** Elimina la conexión (arista) dirigida hacia una estación específica.
-     * @param idDestino ID de la estación destino.
+     * @param id_destino
      */
-    public void eliminarArista(String idDestino) {
+    public void eliminarArista(String id_destino) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) {
             Arista uno = adyacentes.Agarrar(i);
-            if (uno.getEstacionDestino().getId().equals(idDestino)) {
+            if (uno.getid_destino().getid().equals(id_destino)) {
                 adyacentes.Eliminar(uno);
                 break;
             }
