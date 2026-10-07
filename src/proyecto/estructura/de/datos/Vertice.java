@@ -4,8 +4,6 @@
  */
 package proyecto.estructura.de.datos;
 
-package proyecto.estructura.de.datos;
-
 /** <b> Clase Vertice. </b>
  * Representa un nodo dentro del grafo de transporte (un punto de la red).
  * Guarda la estación asociada y la lista de aristas (conexiones) que salen de ella.
