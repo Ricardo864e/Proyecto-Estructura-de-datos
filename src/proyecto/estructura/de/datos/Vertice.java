@@ -24,9 +24,9 @@ public class Vertice {
     /** Agrega una conexión (arista) hacia otra estación con un tiempo determinado.
      * Si la conexión ya existía, la reemplaza con el nuevo tiempo.
      * @param destino Estación a la que se conecta.
-     * @param tiempoMin Tiempo de traslado en minutos.
+     * @param tiempo_min
      */
-    public void agregarArista(Estacion destino, int tiempoMin) {
+    public void agregarArista(Estacion destino, int tiempo_min) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) { // Si ya existe una arista hacia ese destino, la eliminamos primero para actualizarla
             Arista uno = adyacentes.Agarrar(i);
             if (uno.getid_destino().getid().equals(destino.getid())) {
@@ -34,7 +34,7 @@ public class Vertice {
                 break;
             }
         }
-        adyacentes.Insertar(new Arista(destino, tiempoMin)); // Agregamos la nueva conexión
+        adyacentes.Insertar(new Arista(destino, tiempo_min)); // Agregamos la nueva conexión
     }
 
     /** Elimina la conexión (arista) dirigida hacia una estación específica.
