@@ -77,7 +77,7 @@ public class Hash_Estacioness {
      * distingue may&uacute;asculas.
      * 
      * @param clave identificador de la estaci&oacute;n a procesar.
-     * @return &iacute;cdndice entre 0 y la capacidad menos 1.
+     * @return &iacute;ndice entre 0 y la capacidad menos 1.
      */
 
     private int funcionHash(String clave){

@@ -21,7 +21,7 @@ public class Arista {
         return id_destino;
     }
     
-    public int gettiempo_min(){
+    public double gettiempo_min(){
         return tiempo_min;
     }
 }
