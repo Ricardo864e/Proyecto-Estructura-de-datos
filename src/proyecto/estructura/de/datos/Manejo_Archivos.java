@@ -105,7 +105,7 @@ public class Manejo_Archivos {
      * @throws IOException Si ocurre algún error durante la escritura en disco.
      */
     
-    public static void guardarDatosCSV(File archivoEstaciones, File archivoConexiones, GrafoRedTransporte grafo) throws IOException{
+    public static void guardarDatosCSV(File archivoEstaciones, File archivoConexiones, Grafo_De_Transporte grafo) throws IOException{
         // Guardar Estaciones
         try(BufferedWriter archi = new BufferedWriter(new FileWriter(archivoEstaciones))){
             archi.write("ID_Estacion,Nombre,Linea,Zona,Capacidad_Pasajeros_Hora");

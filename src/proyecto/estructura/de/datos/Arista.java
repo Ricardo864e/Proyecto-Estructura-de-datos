@@ -10,9 +10,9 @@ package proyecto.estructura.de.datos;
  */
 public class Arista {
     private Estacion id_destino;
-    private int tiempo_min;
+    private double tiempo_min;
     
-    public Arista(Estacion id_destino, int tiempo_min){
+    public Arista(Estacion id_destino, double tiempo_min){
         this.id_destino = id_destino;
         this.tiempo_min = tiempo_min;
     }

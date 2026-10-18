@@ -26,7 +26,7 @@ public class Vertice {
      * @param destino Estación a la que se conecta.
      * @param tiempo_min
      */
-    public void agregarArista(Estacion destino, int tiempo_min) {
+    public void agregarArista(Estacion destino, double tiempo_min) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) { // Si ya existe una arista hacia ese destino, la eliminamos primero para actualizarla
             Arista uno = adyacentes.Agarrar(i);
             if (uno.getid_destino().getid().equals(destino.getid())) {
