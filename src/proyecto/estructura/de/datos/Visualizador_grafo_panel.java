@@ -5,6 +5,8 @@
 package proyecto.estructura.de.datos;
 
 /**
+ * Panel encargado de renderizar de forma gráfica el grafo de la red de transporte.
+ * Organiza las estaciones en columnas según su línea y dibuja las rutas con sus tiempos.
  *
  * @author Francisco Olivo 
  */
@@ -20,14 +22,20 @@ import java.awt.FontMetrics;
 import java.awt.Dimension;
 
 class VisualizadorGrafoPanel extends JPanel {
+    /** Grafo que contiene la información de las estaciones y conexiones */
     private Grafo_De_Transporte grafo;
+    /**
+     * Inicializa el panel de visualización con el grafo recibido.
+     * 
+     * @param grafo Estructura con los datos del sistema de transporte
+     */
 
     public VisualizadorGrafoPanel(Grafo_De_Transporte grafo) {
         this.grafo = grafo;
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createTitledBorder("Representación Gráfica Multimodal"));
     }
-
+   
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
