@@ -35,7 +35,12 @@ class VisualizadorGrafoPanel extends JPanel {
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createTitledBorder("Representación Gráfica Multimodal"));
     }
-   
+   /**
+     * Dibuja todos los componentes visuales: estaciones, aristas entre nodos
+     * y los tiempos correspondientes en la interfaz gráfica.
+     * 
+     * @param g Objeto Graphics para el renderizado del panel
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -177,6 +182,12 @@ class VisualizadorGrafoPanel extends JPanel {
             g2.drawString(idText, textX, textY);
         }
     }
+    /**
+     * Busca la posición dentro de la lista de vértices según el ID de la estación.
+     * 
+     * @param id Identificador de la estación a consultar
+     * @return Índice de la posición del vértice en la lista, o -1 si no existe
+     */
 
     private int obtenerIndiceVertice(String id) {
         Lista<Vertice> verts = grafo.getVertices();
