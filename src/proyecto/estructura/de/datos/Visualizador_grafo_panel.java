@@ -183,7 +183,7 @@ class VisualizadorGrafoPanel extends JPanel {
         }
     }
     /**
-     * Busca la posición dentro de la lista de vértices según el ID de la estación.
+     * Busca la posición en la lista de vértices según el ID de la estación.
      * 
      * @param id Identificador de la estación a consultar
      * @return Índice de la posición del vértice en la lista, o -1 si no existe
