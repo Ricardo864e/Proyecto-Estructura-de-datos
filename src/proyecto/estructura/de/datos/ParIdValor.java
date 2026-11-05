@@ -8,12 +8,17 @@ package proyecto.estructura.de.datos;
  * 
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
-class ParIdValor {
-    String id;
-    double valor;
-    String texto;
+public class ParIdValor {
+    String id; // Identificador unico de la estacion.
+    double valor; // Valor numerico asociado (distancia acumulada o grado de conexion).
+    String texto; // Informacion adicional (ID del predecesor o nombre de la estacion).
 
-    ParIdValor(String id, double valor, String texto) {
+    /** Constructor de ParIdValor.
+     * @param id Clave primaria de la estacion.
+     * @param valor Distancia o conteo numerico.
+     * @param texto Texto descriptivo auxiliar.
+     */
+    public ParIdValor(String id, double valor, String texto) {
         this.id = id;
         this.valor = valor;
         this.texto = texto;
