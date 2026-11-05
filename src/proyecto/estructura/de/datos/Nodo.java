@@ -11,15 +11,14 @@ package proyecto.estructura.de.datos;
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  * @param <T>
  */
-public class Nodo<T>{
-    T dato;
-    Nodo<T> siguiente;
-    
-    /**
-     * Constructor del nodo.
-     * @param dato Es el elemento que queremos guardar en este nodo.
+public class Nodo<T> {
+    T dato; // Elemento o valor guardado dentro del nodo.
+    Nodo<T> siguiente; // Apuntador o referencia al siguiente nodo en la estructura.
+
+    /** Constructor del nodo.
+     * @param dato El elemento que queremos guardar en este nodo.
      */
-    public Nodo(T dato){
+    public Nodo(T dato) {
         this.dato = dato;
         this.siguiente = null;
     }
