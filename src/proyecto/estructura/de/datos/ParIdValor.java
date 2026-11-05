@@ -6,20 +6,13 @@ package proyecto.estructura.de.datos;
 /**
 
  * 
- * @author Francisco Olivo
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 class ParIdValor {
-    
-    
     String id;
-    
-    
     double valor;
-    
-   
     String texto;
 
- 
     ParIdValor(String id, double valor, String texto) {
         this.id = id;
         this.valor = valor;
