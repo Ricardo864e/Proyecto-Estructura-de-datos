@@ -8,14 +8,14 @@ package proyecto.estructura.de.datos;
  *
  * @author ricardopereira
  */
-public class Main_Interfaz extends javax.swing.JFrame {
+public class Main_interfa extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main_Interfaz.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main_interfa.class.getName());
 
     /**
-     * Creates new form Main_Interfaz
+     * Creates new form Main_interfa
      */
-    public Main_Interfaz() {
+    public Main_interfa() {
         initComponents();
     }
 
@@ -28,8 +28,6 @@ public class Main_Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         BotonGuardarCambios = new javax.swing.JButton();
         BotonVisualizadorGrafos = new javax.swing.JButton();
@@ -91,13 +89,8 @@ public class Main_Interfaz extends javax.swing.JFrame {
         IDOrigenEliminar = new javax.swing.JTextField();
         jSeparator14 = new javax.swing.JSeparator();
 
-        jMenu1.setText("jMenu1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 48)); // NOI18N
         jLabel1.setText("Urban Route");
@@ -319,13 +312,13 @@ public class Main_Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void BotonCargaEstacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCargaEstacionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonCargaEstacionesActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,7 +342,7 @@ public class Main_Interfaz extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Main_Interfaz().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Main_interfa().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -395,8 +388,6 @@ public class Main_Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
