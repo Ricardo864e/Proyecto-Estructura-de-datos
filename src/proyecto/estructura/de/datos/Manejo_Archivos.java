@@ -42,13 +42,21 @@ public class Manejo_Archivos {
         // 1. Cargar Estaciones.
         if(archivoEstaciones != null && archivoEstaciones.exists()){
             try(BufferedReader archi = new BufferedReader(new FileReader(archivoEstaciones))){
+                
+                String encabezado = archi.readLine(); // Leemos la primera línea
+                if (encabezado == null) {
+                    throw new IOException("El archivo de estaciones está vacío.");
+                }
+                
+                // Verificamos si el encabezado parece ser de estaciones (ej. contiene "Linea", "Nombre", o "Zona")
+                String cabeceraLower = encabezado.toLowerCase();
+                if (!cabeceraLower.contains("linea") && !cabeceraLower.contains("nombre")) {
+                    throw new IllegalArgumentException("Estructura inválida: El archivo seleccionado no corresponde a un Diccionario de Estaciones.");
+                }
+                
                 String linea;
-                boolean primera = true; // Para no agarrar el titulo que viene en el .csv
+                
                 while((linea = archi.readLine()) != null) {
-                    if(primera){ 
-                        primera = false;
-                        continue;
-                    }
                     if(!linea.trim().isEmpty()) {
                         Estacion metro = Estacion.fromCSV(linea);
                         if(metro != null){
@@ -65,13 +73,19 @@ public class Manejo_Archivos {
         // 2. Cargar Conexiones.
         if(archivoConexiones != null && archivoConexiones.exists()){
             try (BufferedReader archi = new BufferedReader(new FileReader(archivoConexiones))){
+                
+                String encabezado = archi.readLine(); // Leemos la primera línea
+                if (encabezado == null) {
+                    throw new IOException("El archivo de conexiones está vacío.");
+                }
+                
+                // Verificamos si el encabezado parece ser de conexiones (ej. contiene "origen", "destino", o "tiempo")
+                String cabeceraLower = encabezado.toLowerCase();
+                if (!cabeceraLower.contains("origen") && !cabeceraLower.contains("destino") && !cabeceraLower.contains("tiempo")) {
+                    throw new IllegalArgumentException("Estructura inválida: El archivo seleccionado no corresponde a un Grafo de Conexiones.");
+                }
                 String linea;
-                boolean primera = true;
                 while((linea = archi.readLine()) != null){
-                    if(primera){
-                        primera = false;
-                        continue;
-                    }
                     if(!linea.trim().isEmpty()){
                         String[] d = linea.split(",");
                         if (d.length >= 3) {

@@ -69,6 +69,19 @@ public class Grafo_De_Transporte {
         tablaHash.eliminar(nombre);
         return true;
     }
+    
+    public boolean eliminarConexion(String idOrigen, String idDestino) {
+        Vertice vOrigen = buscarVerticePorId(idOrigen);
+        Vertice vDestino = buscarVerticePorId(idDestino);
+
+        if (vOrigen != null && vDestino != null) {
+            // Eliminar la conexión en ambas direcciones (Grafo no dirigido / bidireccional)
+            vOrigen.eliminarArista(idDestino);
+            vDestino.eliminarArista(idOrigen);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Conecta dos estaciones mediante una arista con un peso/tiempo.

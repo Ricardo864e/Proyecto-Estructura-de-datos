@@ -131,20 +131,38 @@ class VisualizadorGrafoPanel extends JPanel {
                     int x2 = posX[idxDestino];
                     int y2 = posY[idxDestino];
 
-                    
-                    g2.setColor(new Color(110, 110, 110));
-                    g2.drawLine(x1, y1, x2, y2);
-
-                   
+                    // 1. Declaramos midX y midY PRIMERO
                     int midX = (x1 + x2) / 2;
                     int midY = (y1 + y2) / 2;
+
+                    // Línea gris
+                    g2.setColor(new Color(110, 110, 110));
+
+                    // 2. Evaluamos si es un salto largo
+                    if (x1 == x2 && Math.abs(y1 - y2) > 65) {
+                        int offsetX = x1 + 35; // Desvío a la derecha
+
+                        g2.drawLine(x1, y1, offsetX, y1);       // Salida horizontal
+                        g2.drawLine(offsetX, y1, offsetX, y2);  // Bajada paralela esquivando nodos
+                        g2.drawLine(offsetX, y2, x2, y2);       // Entrada horizontal al destino
+
+                        // Ajustamos la etiqueta de texto
+                        midX = offsetX; 
+                    } else {
+                        // Conexiones normales usan línea recta simple
+                        g2.drawLine(x1, y1, x2, y2);
+                    }
+
+                    // (AQUÍ YA NO DEBE HABER OTRO g2.drawLine)
+
+                    // Número del tiempo/peso en el medio
                     String pesoStr = String.valueOf((int) ar.gettiempo_min());
 
                     g2.setFont(new Font("SansSerif", Font.PLAIN, 10));
                     FontMetrics fm = g2.getFontMetrics();
                     int textWidth = fm.stringWidth(pesoStr);
 
-                  
+                    // Pequeña caja blanca detrás del número para legibilidad
                     g2.setColor(Color.WHITE);
                     g2.fillRect(midX - textWidth / 2 - 2, midY - 6, textWidth + 4, 12);
                     g2.setColor(Color.BLACK);
