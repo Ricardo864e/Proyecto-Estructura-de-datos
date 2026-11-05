@@ -10,21 +10,22 @@ package proyecto.estructura.de.datos;
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira
  */
 public class Vertice {
-    private Estacion estacion;
-    private Lista<Arista> adyacentes;
+    private Estacion estacion; // Objeto Estacion que representa este vertice.
+    private Lista<Arista> adyacentes; // Lista de conexiones salientes desde esta estacion.
 
     /** Constructor del Vertice.
-     * @param estacion La estación que representa este vértice en el grafo.
+     * @param estacion La estacion que representa este vertice en el grafo.
      */
     public Vertice(Estacion estacion) {
         this.estacion = estacion;
         this.adyacentes = new Lista<>();
     }
 
-    /** Agrega una conexión (arista) hacia otra estación con un tiempo determinado.
-     * Si la conexión ya existía, la reemplaza con el nuevo tiempo.
-     * @param destino Estación a la que se conecta.
-     * @param tiempo_min
+    /** Agrega una conexion (arista) hacia otra estacion con un tiempo determinado.
+     * Si la conexion ya existia, la reemplaza con el nuevo tiempo.
+     * 
+     * @param destino Estacion a la que se conecta.
+     * @param tiempo_min Tiempo estimado del recorrido en minutos.
      */
     public void agregarArista(Estacion destino, double tiempo_min) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) { // Si ya existe una arista hacia ese destino, la eliminamos primero para actualizarla
@@ -34,11 +35,12 @@ public class Vertice {
                 break;
             }
         }
-        adyacentes.Insertar(new Arista(destino, tiempo_min)); // Agregamos la nueva conexión
+        adyacentes.Insertar(new Arista(destino, tiempo_min)); // Agregamos la nueva conexion
     }
 
-    /** Elimina la conexión (arista) dirigida hacia una estación específica.
-     * @param id_destino
+    /** Elimina la conexion (arista) dirigida hacia una estacion especifica.
+     * 
+     * @param id_destino ID de la estacion destino que se desea desconectar.
      */
     public void eliminarArista(String id_destino) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) {
@@ -50,10 +52,16 @@ public class Vertice {
         }
     }
 
+    /** Devuelve la estacion asociada al vertice.
+     * @return El objeto Estacion guardado.
+     */
     public Estacion getEstacion() { 
         return estacion; 
     }
 
+    /** Devuelve la lista de aristas adyacentes.
+     * @return Lista con las conexiones de la estacion.
+     */
     public Lista<Arista> getAdyacentes() {
         return adyacentes;
     }
