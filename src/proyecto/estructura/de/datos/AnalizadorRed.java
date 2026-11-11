@@ -15,18 +15,18 @@ public class AnalizadorRed {
     /** Constructor del analizador de red.
      * @param grafo El grafo de transporte con el que va a trabajar el analizador.
      */
-    public AnalizadorRed(Grafo_De_Transporte grafo) {
+    public AnalizadorRed(Grafo_De_Transporte grafo){
         this.grafo = grafo;
     }
 
-    /** Requerimiento 6: Algoritmo de Dijkstra para la Ruta de Menor Tiempo.
+    /**Algoritmo de Dijkstra para la Ruta de Menor Tiempo.
      * Encuentra la ruta mas rapida entre dos estaciones utilizando busqueda lineal para la distancia minima.
      * 
      * @param criterioOrigen Nombre o ID de la estacion de origen.
      * @param criterioDestino Nombre o ID de la estacion de destino.
      * @return Un texto formateado con el desglose del tiempo total y el trayecto paso a paso.
      */
-    public String calcularRutaOptima(String criterioOrigen, String criterioDestino) {
+    public String calcularRutaOptima(String criterioOrigen, String criterioDestino){
         Estacion origen = grafo.buscarEstacion(criterioOrigen);
         Estacion destino = grafo.buscarEstacion(criterioDestino);
 
@@ -42,7 +42,7 @@ public class AnalizadorRed {
         boolean[] visitados = new boolean[n]; // Lleva el control de nodos evaluados (reemplaza al MinHeap).
 
         // Inicializacion de estructuras auxiliares
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++){
             String idEst = vertList.Agarrar(i).getEstacion().getid();
             distancias[i] = new ParIdValor(idEst, Double.MAX_VALUE, null);
             predecesores[i] = new ParIdValor(idEst, -1, null);
@@ -52,13 +52,13 @@ public class AnalizadorRed {
         setDistancia(distancias, origen.getid(), 0.0);
 
         // Busqueda lineal para obtener la distancia minima
-        for (int count = 0; count < n - 1; count++) {
+        for (int count = 0; count < n - 1; count++){
             double min = Double.MAX_VALUE;
             int minIndex = -1;
             String u = null;
 
             for (int i = 0; i < n; i++) {
-                if (!visitados[i] && distancias[i].valor <= min) {
+                if (!visitados[i] && distancias[i].valor <= min){
                     min = distancias[i].valor;
                     minIndex = i;
                     u = distancias[i].id;
@@ -78,7 +78,7 @@ public class AnalizadorRed {
                 double peso = ar.gettiempo_min();
 
                 // Evaluamos si el camino a traves de 'u' es mas corto que el registrado previamente para 'v'
-                if (getDistancia(distancias, u) + peso < getDistancia(distancias, v)) {
+                if (getDistancia(distancias, u) + peso < getDistancia(distancias, v)){
                     double nuevaDist = getDistancia(distancias, u) + peso;
                     setDistancia(distancias, v, nuevaDist);
                     setPredecesor(predecesores, v, u);
@@ -87,7 +87,7 @@ public class AnalizadorRed {
         }
 
         double distFinal = getDistancia(distancias, destino.getid());
-        if (distFinal == Double.MAX_VALUE) {
+        if (distFinal == Double.MAX_VALUE){
             return "No existe ruta posible entre " + origen.getnombre() + " y " + destino.getnombre() + ".";
         }
 
@@ -101,37 +101,37 @@ public class AnalizadorRed {
             actual = getPredecesor(predecesores, actual);
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("RUTA OPTIMA DE MENOR TIEMPO\n");
-        sb.append("Origen: ").append(origen.getnombre()).append("\n");
-        sb.append("Destino: ").append(destino.getnombre()).append("\n");
-        sb.append("Tiempo Total Estimado: ").append(String.format("%.2f", distFinal)).append(" minutos\n\n");
-        sb.append("Trayecto Paso a Paso:\n");
+        StringBuilder mensae = new StringBuilder();
+        mensae.append("RUTA OPTIMA DE MENOR TIEMPO\n");
+        mensae.append("Origen: ").append(origen.getnombre()).append("\n");
+        mensae.append("Destino: ").append(destino.getnombre()).append("\n");
+        mensae.append("Tiempo Total Estimado: ").append(String.format("%.2f", distFinal)).append(" minutos\n\n");
+        mensae.append("Trayecto Paso a Paso:\n");
 
-        for (int i = camino.Tamano() - 1; i >= 0; i--) {
+        for (int i = camino.Tamano() - 1; i >= 0; i--){
             int paso = camino.Tamano() - i;
-            sb.append("- ").append(paso).append(". ").append(camino.Agarrar(i)).append("\n");
+            mensae.append("- ").append(paso).append(". ").append(camino.Agarrar(i)).append("\n");
         }
 
-        return sb.toString();
+        return mensae.toString();
     }
 
-    /** Requerimiento 5: Detección de Subredes / Componentes Conexos usando Búsqueda en Profundidad (DFS).
+    /**Detección de Subredes / Usando B&uacute;squeda en Profundidad (DFS).
      * Recorre todo el grafo identificando componentes conexos o sectores aislados dentro del sistema.
      * 
      * @return Un String detallado con cada subred encontrada y el total de subredes aisladas.
      */
-    public String detectarSubredesConexas() {
+    public String detectarSubredesConexas(){
         Lista<Vertice> vertList = grafo.getVertices();
         int n = vertList.Tamano();
         if (n == 0) return "El grafo está vacío.";
 
         Lista<String> visitados = new Lista<>(); // Controla las estaciones que ya pertenecen a alguna subred
         StringBuilder sb = new StringBuilder();
-        sb.append("=== DETECCION DE SUBREDES / COMPONENTES CONEXOS (DFS) ===\n");
+        sb.append("Detección de subredes / Componentes conexos (DFS)\n");
 
         int numSubred = 1;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++){
             Vertice v = vertList.Agarrar(i);
             String id = v.getEstacion().getid();
 
@@ -140,7 +140,7 @@ public class AnalizadorRed {
                 Lista<String> componente = new Lista<>();
                 dfsRec(v, visitados, componente);
 
-                for (int j = 0; j < componente.Tamano(); j++) {
+                for (int j = 0; j < componente.Tamano(); j++){
                     Estacion e = grafo.buscarEstacion(componente.Agarrar(j));
                     sb.append("  - ").append(e.getnombre()).append(" (Línea: ").append(e.getlinea()).append(")\n");
                 }
@@ -154,17 +154,17 @@ public class AnalizadorRed {
 
     /** Metodo recursivo auxiliar para realizar la busqueda en profundidad (DFS).
      * 
-     * @param u Vertice desde el cual se inicia la exploracion.
+     * @param u Vertice desde el cual se inicia la exploraci&oacute;n.
      * @param visitados Lista global de ids de estaciones ya exploradas.
      * @param componente Lista donde se guardan los ids de la subred actual.
      */
-    private void dfsRec(Vertice u, Lista<String> visitados, Lista<String> componente) {
+    private void dfsRec(Vertice u, Lista<String> visitados, Lista<String> componente){
         String idU = u.getEstacion().getid();
         visitados.Insertar(idU);
         componente.Insertar(idU);
 
         Lista<Arista> ady = u.getAdyacentes();
-        for (int i = 0; i < ady.Tamano(); i++) {
+        for (int i = 0; i < ady.Tamano(); i++){
             String idV = ady.Agarrar(i).getid_destino().getid();
             if (!visitados.Contiene(idV)) {
                 Vertice v = grafo.buscarVerticePorId(idV);
@@ -175,46 +175,46 @@ public class AnalizadorRed {
         }
     }
 
-    /** Requerimiento 7: Identificación de Hubs de Transferencia (Centralidad de Grado).
-     * Calcula el grado (conexiones directas) de cada estacion y las ordena de mayor a menor.
+    /**Identificación de Hubs de Transferencia (Centralidad de Grado).
+     * Calcula el grado (conexiones directas) de cada estaci&oacute;n y las ordena de mayor a menor.
      * 
      * @return Texto con la lista ordenada de estaciones con mayor numero de conexiones.
      */
-    public String identificarHubsTransferencia() {
+    public String identificarHubsTransferencia(){
         Lista<Vertice> vertList = grafo.getVertices();
         int n = vertList.Tamano();
         if (n == 0) return "El grafo está vacío.";
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== HUBS DE TRANSFERENCIA (CENTRALIDAD DE GRADO) ===\n");
-        sb.append("Estaciones ordenadas por mayor número de conexiones directas:\n\n");
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("Hubs de transferencia.\n");
+        mensaje.append("Estaciones ordenadas por mayor número de conexiones directas:\n\n");
 
         ParIdValor[] grados = new ParIdValor[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++){
             Vertice v = vertList.Agarrar(i);
             grados[i] = new ParIdValor(v.getEstacion().getid(), v.getAdyacentes().Tamano(), v.getEstacion().getnombre());
         }
 
         // Ordenamiento por seleccion (Selection Sort - Descendente)
-        for (int i = 0; i < n - 1; i++) {
-            int maxIdx = i;
+        for (int i = 0; i < n - 1; i++){
+            int maxx = i;
             for (int j = i + 1; j < n; j++) {
-                if (grados[j].valor > grados[maxIdx].valor) {
-                    maxIdx = j;
+                if (grados[j].valor > grados[maxx].valor) {
+                    maxx = j;
                 }
             }
             ParIdValor temp = grados[i];
-            grados[i] = grados[maxIdx];
-            grados[maxIdx] = temp;
+            grados[i] = grados[maxx];
+            grados[maxx] = temp;
         }
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++){
             Estacion e = grafo.buscarEstacion(grados[i].id);
-            sb.append(String.format("%d. %s [%s] -> Grado: %d conexiones directas\n",
+            mensaje.append(String.format("%d. %s [%s] -> Grado: %d conexiones directas\n",
                     (i + 1), e.getnombre(), e.getlinea(), (int) grados[i].valor));
         }
 
-        return sb.toString();
+        return mensaje.toString();
     }
 
     // Metodos Auxiliares Internos para el Algoritmo de Dijkstra
@@ -225,7 +225,7 @@ public class AnalizadorRed {
      * @param id ID de la estacion a buscar.
      * @return El valor numerico de la distancia o Double.MAX_VALUE si no se encuentra.
      */
-    private double getDistancia(ParIdValor[] arr, String id) {
+    private double getDistancia(ParIdValor[] arr, String id){
         for (ParIdValor p : arr) {
             if (p.id.equalsIgnoreCase(id)) return p.valor;
         }
@@ -235,11 +235,11 @@ public class AnalizadorRed {
     /** Actualiza el valor de la distancia acumulada de una estacion.
      * 
      * @param arr Arreglo con pares ID-Valor de distancias.
-     * @param id ID de la estacion.
+     * @param id ID de la estaci&oacute;n.
      * @param val Nuevo valor de la distancia.
      */
-    private void setDistancia(ParIdValor[] arr, String id, double val) {
-        for (ParIdValor p : arr) {
+    private void setDistancia(ParIdValor[] arr, String id, double val){
+        for (ParIdValor p : arr){// usamos los dos puntos para no sacar el valor manualmente.
             if (p.id.equalsIgnoreCase(id)) {
                 p.valor = val;
                 return;
@@ -253,8 +253,8 @@ public class AnalizadorRed {
      * @param id ID de la estacion actual.
      * @return El ID de la estacion predecesora o null si no existe.
      */
-    private String getPredecesor(ParIdValor[] arr, String id) {
-        for (ParIdValor p : arr) {
+    private String getPredecesor(ParIdValor[] arr, String id){
+        for (ParIdValor p : arr){ // usamos los dos puntos para no sacar el valor manualmente.
             if (p.id.equalsIgnoreCase(id)) return p.texto;
         }
         return null;
@@ -266,9 +266,9 @@ public class AnalizadorRed {
      * @param id ID de la estacion actual.
      * @param pred ID de la estacion previa en la ruta.
      */
-    private void setPredecesor(ParIdValor[] arr, String id, String pred) {
-        for (ParIdValor p : arr) {
-            if (p.id.equalsIgnoreCase(id)) {
+    private void setPredecesor(ParIdValor[] arr, String id, String pred){
+        for (ParIdValor p : arr){// usamos los dos puntos para no sacar el valor manualmente.
+            if (p.id.equalsIgnoreCase(id)){
                 p.texto = pred;
                 return;
             }

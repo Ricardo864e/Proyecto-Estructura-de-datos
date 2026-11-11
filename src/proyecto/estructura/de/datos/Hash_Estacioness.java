@@ -60,7 +60,12 @@ public class Hash_Estacioness {
         for (int i = 0; i < cla.length(); i++){
             hash = (31 * hash + cla.charAt(i)) % capacidad;
         }
-        return Math.abs(hash);
+        
+        //Le aplicamos el valor absoluto al hash.
+        if(hash < 0){
+            hash = hash * -1; 
+        }
+        return hash;
     }
     
     /**
@@ -74,9 +79,9 @@ public class Hash_Estacioness {
         Lista<ElementoHash> casilla = tabla[indice];
         
         // Se recorre la lista de esa posici&oacute;n por si la clave ya estaba registrada
-        for (int i = 0; i < casilla.Tamano(); i++){
+        for(int i = 0; i < casilla.Tamano(); i++){
             ElementoHash guardar = casilla.Agarrar(i);
-            // Si la clave ya existe, se sobrescribe con la nueva informaci&oacute;n
+            // Si la clave ya existe, se sobrescribe con la nueva informaci&oacute;n, en pocas palabras se actualiza.
             if (guardar.clave.equalsIgnoreCase(clave)){
                 guardar.estacion = estacion;
                 return;
