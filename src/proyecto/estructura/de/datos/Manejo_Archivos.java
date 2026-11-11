@@ -30,7 +30,7 @@ public class Manejo_Archivos {
      * 
      * @param archivoEstaciones Archivo CSV que contiene la lista de estaciones y sus atributos.
      * @param archivoConexiones Archivo CSV con los caminos, destinos y tiempos de viaje en minutos.
-     * @param grafo Grafo de transporte que se vaciar&aacute; y poblar&aacute; con la nueva información.
+     * @param grafo Grafo de transporte que se vaciar&aacute; y poblar&aacute; con la nueva informaci&oacuten.
      * @throws FileNotFoundException Si el archivo obligatorio de estaciones no se encuentra en el disco.
      * @throws IOException Si ocurre algún fallo de lectura durante el procesamiento del archivo.
      */
@@ -39,7 +39,7 @@ public class Manejo_Archivos {
         //Vaciamos el grafo.
         grafo.vaciar();
 
-        // 1. Cargar Estaciones.
+        // Cargar Estaciones.
         if(archivoEstaciones != null && archivoEstaciones.exists()){
             try(BufferedReader archi = new BufferedReader(new FileReader(archivoEstaciones))){
                 
@@ -48,7 +48,7 @@ public class Manejo_Archivos {
                     throw new IOException("El archivo de estaciones está vacío.");
                 }
                 
-                // Verificamos si el encabezado parece ser de estaciones (ej. contiene "Linea", "Nombre", o "Zona")
+                // Verificamos si el encabezado parece ser de estaciones ejemplo: contiene "Linea", "Nombre", o "Zona".
                 String cabeceraLower = encabezado.toLowerCase();
                 if (!cabeceraLower.contains("linea") && !cabeceraLower.contains("nombre")) {
                     throw new IllegalArgumentException("Estructura inválida: El archivo seleccionado no corresponde a un Diccionario de Estaciones.");
@@ -70,7 +70,7 @@ public class Manejo_Archivos {
             throw new FileNotFoundException("No se encontró el archivo de estaciones: " + archivoEstaciones.getName());
         }
 
-        // 2. Cargar Conexiones.
+        //Cargar Conexiones.
         if(archivoConexiones != null && archivoConexiones.exists()){
             try (BufferedReader archi = new BufferedReader(new FileReader(archivoConexiones))){
                 
@@ -79,7 +79,7 @@ public class Manejo_Archivos {
                     throw new IOException("El archivo de conexiones está vacío.");
                 }
                 
-                // Verificamos si el encabezado parece ser de conexiones (ej. contiene "origen", "destino", o "tiempo")
+                // Verificamos si el encabezado parece ser de conexiones ejemplo: contiene "origen", "destino", o "tiempo".
                 String cabeceraLower = encabezado.toLowerCase();
                 if (!cabeceraLower.contains("origen") && !cabeceraLower.contains("destino") && !cabeceraLower.contains("tiempo")) {
                     throw new IllegalArgumentException("Estructura inválida: El archivo seleccionado no corresponde a un Grafo de Conexiones.");
@@ -99,7 +99,7 @@ public class Manejo_Archivos {
                                 tiempo = 1.0; // Valor por defecto si el peso no es numérico
                             }
                             // Asumimos conexión bidireccional en redes de transporte
-                            grafo.conectarEstaciones(orig, dest, tiempo, true);
+                            grafo.conectarEstaciones(orig, dest, tiempo);
                         }
                     }
                 }

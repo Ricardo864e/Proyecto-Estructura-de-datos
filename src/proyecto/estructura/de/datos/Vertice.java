@@ -42,14 +42,15 @@ public class Vertice {
      * 
      * @param id_destino ID de la estacion destino que se desea desconectar.
      */
-    public void eliminarArista(String id_destino) {
+    public boolean eliminarArista(String id_destino) {
         for (int i = 0; i < adyacentes.Tamano(); i += 1) {
             Arista uno = adyacentes.Agarrar(i);
             if (uno.getid_destino().getid().equals(id_destino)) {
                 adyacentes.Eliminar(uno);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     /** Devuelve la estacion asociada al vertice.

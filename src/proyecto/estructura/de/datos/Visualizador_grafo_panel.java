@@ -4,214 +4,137 @@
  */
 package proyecto.estructura.de.datos;
 
-/**
- * Panel encargado de renderizar de forma gráfica el grafo de la red de transporte.
- * Organiza las estaciones en columnas según su línea y dibuja las rutas con sus tiempos.
- *
- * @author Francisco Olivo 
- */
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import javax.swing.BorderFactory;
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
 import javax.swing.JPanel;
-import java.awt.FontMetrics;
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 
-class VisualizadorGrafoPanel extends JPanel {
-    /** Grafo que contiene la información de las estaciones y conexiones */
-    private Grafo_De_Transporte grafo;
+/**
+ * Panel que forma la gr&aacute;fica del grafo de la red de transporte.
+ * Organiza las estaciones, muestra las conexiones y dibuja las rutas con sus tiempos.
+ * 
+ * Hacemos un "extends JPanel" porque necesitamos un componente de la interfaz gr&aacute;fica 
+ * de Java Swing que funcione como una pizarra en blanco. As&iacute; podemos usar 
+ * las herramientas.
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
+ */
+
+public class Visualizador_grafo_panel extends JPanel {
+
+    private Grafo_De_Transporte grafoPersonalizado;
+    
     /**
-     * Inicializa el panel de visualización con el grafo recibido.
+     * Constructor del panel visual.
+     * Recibe el grafo que construimos a mano en el proyecto y hace que ocupe todo el panel.
      * 
-     * @param grafo Estructura con los datos del sistema de transporte
+     * @param grafo El grafo con las listas de adyacencia de nuestro proyecto.
      */
 
-    public VisualizadorGrafoPanel(Grafo_De_Transporte grafo) {
-        this.grafo = grafo;
-        setBackground(Color.WHITE);
-        setBorder(BorderFactory.createTitledBorder("Representación Gráfica Multimodal"));
+    public Visualizador_grafo_panel(Grafo_De_Transporte grafo){
+        this.grafoPersonalizado = grafo;
+        
+        // Usamos BorderLayout para que el mapa de GraphStream ocupe todo el espacio del panel
+        this.setLayout(new BorderLayout());
+        // Llamamos al método que arma todo
+        inicializarGraphStream();
     }
-   /**
-     * Dibuja todos los componentes visuales: estaciones, aristas entre nodos
-     * y los tiempos correspondientes en la interfaz gráfica.
-     * 
-     * @param g Objeto Graphics para el renderizado del panel
+
+    /**
+     * N&uacute;cleo visual de la clase. 
+     * Se encarga de configurar el GraphStream, darle estilo CSS 
+     * para que tenga los mismos colores y forma del boceto en el enunciado del proyevto,
+     * y traducir nuestros Vértices y Aristas 
+     * a los Nodos que entiende la librería.
      */
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    private void inicializarGraphStream() {
 
-        Lista<Vertice> verts = grafo.getVertices();
-        int total = verts.Tamano();
-        if (total == 0) {
-            g2.drawString("No hay datos cargados en la red.", 20, 30);
-            return;
+        // Esto le dice a la librería que vamos a usar Java Swing.
+        System.setProperty("org.graphstream.ui", "swing");
+
+        // Creamos el grafo de la librería.
+        Graph gsGraph = new SingleGraph("Red de Transporte Urbano");
+        
+        // Podemos usar CSS para que se vea bonito (tamaño de texto, color de fondo de las letras, etc.)
+        gsGraph.setAttribute("ui.stylesheet", "node { text-size: 14px; text-background-mode: plain; text-background-color: white; } edge { text-size: 12px; text-color: blue; }");
+
+        Lista vertices = grafoPersonalizado.getVertices();
+        if (vertices == null || vertices.Tamano() == 0) {
+            return; // Si no hay datos, no dibujamos nada
         }
 
-        int panelWidth = Math.max(getWidth(), 550);
-        int[] posX = new int[total];
-        int[] posY = new int[total];
-        int[] tamanioNodo = new int[total];
-
-       
-        int colLinea2 = panelWidth / 2 - 170; 
-        int colLinea4 = panelWidth / 2 - 70;  
-        int colLinea1 = panelWidth / 2 + 40;  
-        int colLinea3 = panelWidth / 2 + 130; 
-
-        
-        int yL1 = 40;
-        int yL2 = 420; 
-        int yL3 = 380; 
-        int yL4 = 920; 
-
-        int stepY = 58; 
-
-       
-        for (int i = 0; i < total; i++) {
-            Vertice v = verts.Agarrar(i);
-            String id = v.getEstacion().getid().toUpperCase();
-            String linea = v.getEstacion().getlinea().toLowerCase();
-            int grado = v.getAdyacentes().Tamano();
-
+        // Se crean los nodos GraphStream.
+        for (int i = 0; i < vertices.Tamano(); i++) {
+            Vertice v = (Vertice) vertices.Agarrar(i);
+            Estacion est = v.getEstacion();
+            String idEstacion = est.getid();
             
-            int diametro = 38;
-            if (grado >= 4 || id.contains("PZA_VZLA") || id.contains("CAP_L4")) {
-                diametro = 58;
-            } else if (grado == 3 || id.contains("CHA_CAO") || id.contains("PAR_C")) {
-                diametro = 48;
-            }
-            tamanioNodo[i] = diametro;
-
+            // Agregamos el nodo.
+            Node nodoo = gsGraph.addNode(idEstacion);
             
-            if (linea.contains("2")) {
-                posX[i] = colLinea2;
-                posY[i] = yL2;
-                yL2 += stepY;
+            // "ui.label" es el texto que aparece al lado del circulito
+            nodoo.setAttribute("ui.label", idEstacion);
+            
+            // Coloreamos el nodo usando CSS integrado, dependiendo de la línea
+            String linea = est.getlinea().toLowerCase();
+            if (linea.contains("1")) {
+                nodoo.setAttribute("ui.style", "fill-color: red;");
+            } else if (linea.contains("2")) {
+                nodoo.setAttribute("ui.style", "fill-color: green;");
             } else if (linea.contains("3")) {
-                posX[i] = colLinea3;
-                posY[i] = yL3;
-                yL3 += stepY;
+                nodoo.setAttribute("ui.style", "fill-color: blue;");
             } else if (linea.contains("4")) {
-                posX[i] = colLinea4;
-                posY[i] = yL4;
-                yL4 += stepY;
-            } else { // 
-                posX[i] = colLinea1;
-                posY[i] = yL1;
-                yL1 += stepY;
+                nodoo.setAttribute("ui.style", "fill-color: yellow;");
+            } else {
+                nodoo.setAttribute("ui.style", "fill-color: orange;");
             }
         }
 
-       
-        int maxY = Math.max(Math.max(yL1, yL2), Math.max(yL3, yL4)) + 50;
-        if (getPreferredSize().height != maxY) {
-            setPreferredSize(new Dimension(panelWidth, maxY));
-            revalidate();
-        }
-
-        
-        g2.setStroke(new BasicStroke(1.8f));
-        for (int i = 0; i < total; i++) {
-            Vertice u = verts.Agarrar(i);
-            Lista<Arista> ady = u.getAdyacentes();
-            for (int j = 0; j < ady.Tamano(); j++) {
-                Arista ar = ady.Agarrar(j);
-                int idxDestino = obtenerIndiceVertice(ar.getid_destino().getid());
-
-                if (idxDestino != -1 && idxDestino > i) {
-                    int x1 = posX[i];
-                    int y1 = posY[i];
-                    int x2 = posX[idxDestino];
-                    int y2 = posY[idxDestino];
-
-                    // 1. Declaramos midX y midY PRIMERO
-                    int midX = (x1 + x2) / 2;
-                    int midY = (y1 + y2) / 2;
-
-                    // Línea gris
-                    g2.setColor(new Color(110, 110, 110));
-
-                    // 2. Evaluamos si es un salto largo
-                    if (x1 == x2 && Math.abs(y1 - y2) > 65) {
-                        int offsetX = x1 + 35; // Desvío a la derecha
-
-                        g2.drawLine(x1, y1, offsetX, y1);       // Salida horizontal
-                        g2.drawLine(offsetX, y1, offsetX, y2);  // Bajada paralela esquivando nodos
-                        g2.drawLine(offsetX, y2, x2, y2);       // Entrada horizontal al destino
-
-                        // Ajustamos la etiqueta de texto
-                        midX = offsetX; 
-                    } else {
-                        // Conexiones normales usan línea recta simple
-                        g2.drawLine(x1, y1, x2, y2);
-                    }
-
-                    // (AQUÍ YA NO DEBE HABER OTRO g2.drawLine)
-
-                    // Número del tiempo/peso en el medio
-                    String pesoStr = String.valueOf((int) ar.gettiempo_min());
-
-                    g2.setFont(new Font("SansSerif", Font.PLAIN, 10));
-                    FontMetrics fm = g2.getFontMetrics();
-                    int textWidth = fm.stringWidth(pesoStr);
-
-                    // Pequeña caja blanca detrás del número para legibilidad
-                    g2.setColor(Color.WHITE);
-                    g2.fillRect(midX - textWidth / 2 - 2, midY - 6, textWidth + 4, 12);
-                    g2.setColor(Color.BLACK);
-                    g2.drawString(pesoStr, midX - textWidth / 2, midY + 4);
+        // Creamos las conexiones en GraphStream.
+        for (int i = 0; i < vertices.Tamano(); i++) {
+            Vertice v = (Vertice) vertices.Agarrar(i);
+            String origen = v.getEstacion().getid();
+            
+            Lista adyacentes = v.getAdyacentes();
+            for (int j = 0; j < adyacentes.Tamano(); j++) {
+                Arista arista = (Arista) adyacentes.Agarrar(j);
+                String destino = arista.getid_destino().id;
+                
+                // Creamos un ID único para la arista
+                String idArista = origen + "-" + destino;
+                String idAristaInversa = destino + "-" + origen;
+                
+                // Evitamos duplicados, ya que es no dirigido.
+                if (gsGraph.getEdge(idArista) == null && gsGraph.getEdge(idAristaInversa) == null) {
+                    // Hacemos la arista en si (edge).
+                    // addEdge(id, origen, destino, dirigido (false para que no tenga flecha)) 
+                    Edge edge = gsGraph.addEdge(idArista, origen, destino, false);
+                    
+                    // Le ponemos el tiempo de traslado como etiqueta en el medio de la línea
+                    edge.setAttribute("ui.label", String.valueOf(arista.gettiempo_min()) + " min");
                 }
             }
         }
 
+        // Se muestra en grafico.
+        // Creamos el visor de Swing
+        SwingViewer viewer = new SwingViewer(gsGraph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         
-        Color colorCeleste = new Color(126, 200, 227); 
-        Color colorBorde = new Color(40, 40, 40);
-
-        for (int i = 0; i < total; i++) {
-            Vertice v = verts.Agarrar(i);
-            int d = tamanioNodo[i];
-            int x = posX[i] - d / 2;
-            int y = posY[i] - d / 2;
-
-            
-            g2.setColor(colorCeleste);
-            g2.fillOval(x, y, d, d);
-
+        // Magia pura: esto activa la "gravedad" y repulsión para que los nodos 
+        // no queden todos amontonados en la esquina, sino que se separen orgánicamente.
+        viewer.enableAutoLayout();
         
-            g2.setColor(colorBorde);
-            g2.setStroke(new BasicStroke(1.2f));
-            g2.drawOval(x, y, d, d);
-
-            
-            g2.setColor(Color.BLACK);
-            g2.setFont(new Font("SansSerif", Font.BOLD, 10));
-            FontMetrics fm = g2.getFontMetrics();
-            String idText = v.getEstacion().getid();
-            int textX = posX[i] - fm.stringWidth(idText) / 2;
-            int textY = posY[i] + fm.getAscent() / 2 - 2;
-            g2.drawString(idText, textX, textY);
-        }
-    }
-    /**
-     * Busca la posición en la lista de vértices según el ID de la estación.
-     * 
-     * @param id Identificador de la estación a consultar
-     * @return Índice de la posición del vértice en la lista, o -1 si no existe
-     */
-
-    private int obtenerIndiceVertice(String id) {
-        Lista<Vertice> verts = grafo.getVertices();
-        for (int i = 0; i < verts.Tamano(); i++) {
-            if (verts.Agarrar(i).getEstacion().getid().equalsIgnoreCase(id)) return i;
-        }
-        return -1;
+        // Obtenemos el panel visual de GraphStream. 
+        // Le pasamos 'false' para que NO cree una ventana separada, sino que nos dé el componente.
+        ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+        
+        // Para que se puedan mover los nodos.
+        viewPanel.setMouseManager(new org.graphstream.ui.swing_viewer.util.DefaultMouseManager());
+        
+        
+        // Agregamos ese componente de GraphStream dentro de nuestro propio JPanel
+        this.add(viewPanel, BorderLayout.CENTER);
     }
 }

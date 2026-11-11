@@ -6,6 +6,12 @@ package proyecto.estructura.de.datos;
 
 /**
  *
+ * Representa una conexión entre dos estaciones de la red de transporte.
+ * 
+ * Cada estación guarda una lista 
+ * de estas "aristas". Cada arista conoce a qué estación se puede llegar directamente desde 
+ * ahí y cuánto tiempo nos toma ese recorrido en minutos (que viene siendo el "peso" de la conexión).
+ * 
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Arista {
@@ -33,5 +39,13 @@ public class Arista {
      */
     public double gettiempo_min() {
         return tiempo_min;
+    }
+    
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Arista otra = (Arista) obj;
+        // Dos aristas son iguales si apuntan al mismo destino
+        return this.getid_destino().getid().equals(otra.getid_destino().getid());
     }
 }

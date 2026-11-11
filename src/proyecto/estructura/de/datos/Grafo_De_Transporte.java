@@ -1,7 +1,12 @@
 package proyecto.estructura.de.datos;
 
 /**
- * Grafo Ponderado Multimodal basado en Lista de Adyacencia Propia.
+ * Representa la estructura completa de nuestra red de transporte.
+ * 
+ * Es la clase principal donde organizamos las estaciones 
+ * en una lista de v&eacute;rtices y mantenemos una tabla hash para realizar b&uacute;squedas 
+ * r&aacute;pidas por nombre o ID sin tener que recorrer todo el grafo a mano cada vez.
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Grafo_De_Transporte {
 
@@ -9,7 +14,8 @@ public class Grafo_De_Transporte {
     private Hash_Estacioness tablaHash;
 
     /**
-     * Constructor de la clase. Inicializa la lista de vértices y la tabla hash.
+     * Constructor de la clase. 
+     * Inicializa la lista de v&eacute;rtices y la tabla hash.
      */
     public Grafo_De_Transporte(){
         this.vertices = new Lista<>();
@@ -17,8 +23,10 @@ public class Grafo_De_Transporte {
     }
 
     /**
-     * Agrega una nueva estación al grafo si no existe previamente en la tabla hash.
-     * 
+     * Agrega una nueva estaci&oacute;n a la red.
+     * Antes de insertarla, revisa en la tabla hash que no la hayamos registrado antes 
+     * para evitar tener nodos duplicados. Si es nueva, la guarda tanto en la lista de v&eacute;rtices 
+     * como en la tabla hash (registrándola por su ID y por su Nombre).
      * @param estacion la estación a agregar
      */
     public void agregarEstacion(Estacion estacion){
@@ -31,10 +39,12 @@ public class Grafo_De_Transporte {
     }
 
     /**
-     * Elimina una estación del grafo por su ID o nombre.
-     * 
-     * @param nombre_o_id el ID o nombre de la estación a eliminar
-     * @return true si se eliminó con éxito, false si no se encontró
+     * Elimina una estaci&oacute;n por completo.
+     * Para borrarla bien sin romper la estructura, se le quita las conexiones 
+     * (aristas) que apuntaban a esta estaci&oacute;n a los dem&aacute;s v&eacute;rtices,
+     * , se elimina el v&eacute;rtice de la lista principal, y se borra la estaci&oacute;n de la tabla hash.
+     * @param nombre_o_id el ID o nombre de la estaci&oacute;n a eliminar
+     * @return true si se elimin&oacute; con &eacute;xito, false si no se encontr&oacute;
      */
     public boolean eliminarEstacion(String nombre_o_id){
         Estacion cual = tablaHash.buscar(nombre_o_id);
@@ -45,12 +55,12 @@ public class Grafo_De_Transporte {
         String id = cual.getid();
         String nombre = cual.getnombre();
 
-        // 1. Eliminar aristas incidentes hacia esta estacion en todos los vertices
+        //Eliminar aristas incidentes hacia esta estacion en todos los vertices
         for(int i = 0; i < vertices.Tamano(); i++){
             vertices.Agarrar(i).eliminarArista(id);
         }
 
-        // 2. Eliminar el vertice del grafo
+        //Eliminar el vertice del grafo
         Vertice aEliminar = null;
         for(int i = 0; i < vertices.Tamano(); i++){
             Vertice v = vertices.Agarrar(i);
@@ -64,50 +74,60 @@ public class Grafo_De_Transporte {
             vertices.Eliminar(aEliminar);
         }
 
-        // 3. Eliminar de la Tabla Hash
+        //Eliminar de la Tabla Hash
         tablaHash.eliminar(id);
         tablaHash.eliminar(nombre);
         return true;
     }
     
-    public boolean eliminarConexion(String idOrigen, String idDestino) {
+    /**
+     * Elimina la conexi&oacute;n directa entre dos estaciones en ambas direcciones.
+     * Al ser un grafo no dirigido, le quita a la estaci&oacute;n de origen la ruta hacia el destino 
+     * y viceversa.
+     * 
+     * @param idOrigen ID de la primera estaci&oacute;n.
+     * @param idDestino ID de la segunda estaci&oacute;n.
+     * @return true si se eliminó el tramo con &eacute;xito, false si alguna estaci&oacute;n no existe.
+     */
+    public boolean eliminarConexion(String idOrigen, String idDestino){
         Vertice vOrigen = buscarVerticePorId(idOrigen);
         Vertice vDestino = buscarVerticePorId(idDestino);
 
         if (vOrigen != null && vDestino != null) {
-            // Eliminar la conexión en ambas direcciones (Grafo no dirigido / bidireccional)
-            vOrigen.eliminarArista(idDestino);
-            vDestino.eliminarArista(idOrigen);
-            return true;
+            // Eliminar la conexi&oacute;n en ambas direcciones bidireccional.
+            boolean eliminadaIda = vOrigen.eliminarArista(idDestino);
+            boolean eliminadaVuelta = vDestino.eliminarArista(idOrigen);
+            return eliminadaIda || eliminadaVuelta;
         }
         return false;
     }
 
     /**
-     * Conecta dos estaciones mediante una arista con un peso/tiempo.
-     * 
-     * @param idOrigen ID de la estación origen
+     * Conecta dos estaciones mediante una arista con un tiempo.
+     * Se hacen las conexiones de forma bidireccionar.
+     * Aqu&iacute; se manifiesta la naturaleza de nuestro grafo bidireccional:
+     * creamos la arista de ida y al mismo tiempo la arista de vuelta con el mismo peso.
+     * @param idOrigen ID de la estaci&oacute;n origen
      * @param idDestino ID de la estación destino
-     * @param tiempo peso o tiempo de la conexión
-     * @param bidirecional indica si la conexión es de ida y vuelta
+     * @param tiempo peso o tiempo de la conexi&oacute;n
      */
-    public void conectarEstaciones(String idOrigen, String idDestino, double tiempo, boolean bidirecional){
+    public void conectarEstaciones(String idOrigen, String idDestino, double tiempo){
         Vertice vertiOrigen = buscarVerticePorId(idOrigen);
         Vertice vertiDestino = buscarVerticePorId(idDestino);
 
         if(vertiOrigen != null && vertiDestino != null){
+            //Agregas la ida (Origen -> Destino)
             vertiOrigen.agregarArista(vertiDestino.getEstacion(), tiempo);
-            if (bidirecional) {
-                vertiDestino.agregarArista(vertiOrigen.getEstacion(), tiempo);
-            }
+            //Agregas la vuelta (Destino -> Origen)
+            vertiDestino.agregarArista(vertiOrigen.getEstacion(), tiempo);
         }
     }
 
     /**
-     * Busca un vértice dentro de la lista según el ID de la estación.
+     * Busca un v&eacute;rtice dentro de la lista seg&uacute;n el ID de la estaci&oacute;n.
      * 
      * @param id el identificador de la estación
-     * @return el vértice correspondiente o null si no existe
+     * @return el v&eacute;rtice correspondiente o null si no existe
      */
     public Vertice buscarVerticePorId(String id){
         for(int i = 0; i < vertices.Tamano(); i++){
@@ -120,9 +140,9 @@ public class Grafo_De_Transporte {
     }
 
     /**
-     * Busca una estación en la tabla hash por su criterio (ID o nombre).
+     * Busca una estaci&oacute;n en la tabla hash por su criterio (ID o nombre).
      * 
-     * @param criterio el ID o nombre de la estación
+     * @param criterio el ID o nombre de la estaci&oacute;n
      * @return la estación encontrada o null si no está
      */
     public Estacion buscarEstacion(String criterio){
@@ -130,9 +150,9 @@ public class Grafo_De_Transporte {
     }
 
     /**
-     * Obtiene la lista completa de vértices.
+     * Obtiene la lista completa de v&eacute;rtices.
      * 
-     * @return lista de vértices del grafo
+     * @return lista de v&eacute;rtices del grafo
      */
     public Lista<Vertice> getVertices(){
         return vertices;

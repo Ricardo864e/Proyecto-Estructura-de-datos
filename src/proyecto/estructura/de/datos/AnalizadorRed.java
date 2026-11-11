@@ -7,7 +7,7 @@ package proyecto.estructura.de.datos;
 
 /**
  *
- * @author jvera
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class AnalizadorRed {
     private Grafo_De_Transporte grafo; // Referencia al grafo de transporte que contiene la red.
@@ -102,7 +102,7 @@ public class AnalizadorRed {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("=== RUTA OPTIMA DE MENOR TIEMPO ===\n");
+        sb.append("RUTA OPTIMA DE MENOR TIEMPO\n");
         sb.append("Origen: ").append(origen.getnombre()).append("\n");
         sb.append("Destino: ").append(destino.getnombre()).append("\n");
         sb.append("Tiempo Total Estimado: ").append(String.format("%.2f", distFinal)).append(" minutos\n\n");

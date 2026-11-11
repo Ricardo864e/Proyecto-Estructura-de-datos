@@ -2,21 +2,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package proyecto.estructura.de.datos;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
+ * Menu del proyecto.
+ * Esta clase contiene toda la interfaz, permitiendo interactuar
+ * con las estaciones y conexiones. 
  *
- * @author ricardopereira
+ * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Main_interfa extends javax.swing.JFrame {
+    
+    private Grafo_De_Transporte grafo;
+    private AnalizadorRed analizador;
+    private boolean cambiosPendientes = false; //Verifica si hay cambios por guardar.
+
+    // Archivos por defecto, con los nombres de los archivos.
+    private File archivoEstacionesActual = new File("diccionario");
+    private File archivoConexionesActual = new File("grafo");
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Main_interfa.class.getName());
 
     /**
-     * Creates new form Main_interfa
-     */
+    * Constructor de la interfaz.
+    * Prepara las instancias del grafo 
+    * y del analizador de red para que est&eacute;n listos para recibir los datos del sistema.
+    */
     public Main_interfa() {
         initComponents();
+        this.grafo = new Grafo_De_Transporte();
+        this.analizador = new AnalizadorRed(grafo);
     }
 
     /**
@@ -32,20 +52,16 @@ public class Main_interfa extends javax.swing.JFrame {
         BotonGuardarCambios = new javax.swing.JButton();
         BotonVisualizadorGrafos = new javax.swing.JButton();
         BotonCargaEstaciones = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ID_destino = new javax.swing.JTextField();
         ID_Origen = new javax.swing.JTextField();
-        Boton_de_Agregar_estacion = new javax.swing.JButton();
+        Boton_de_Eli_conexion = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         Identificador_Hubs = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Detectar_Subredes = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -65,8 +81,8 @@ public class Main_interfa extends javax.swing.JFrame {
         ID_Gestion1 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         Linea_Gestion1 = new javax.swing.JTextField();
-        Boton_de_Agregar_estacion1 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Boton_de_Eliminar_estacion = new javax.swing.JButton();
+        Boton_de_Agregar_conexion = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
@@ -88,43 +104,37 @@ public class Main_interfa extends javax.swing.JFrame {
         IDDestinoEliminar = new javax.swing.JTextField();
         IDOrigenEliminar = new javax.swing.JTextField();
         jSeparator14 = new javax.swing.JSeparator();
+        jButton3 = new javax.swing.JButton();
+        AMostrarGrafo = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        AMostrarInformacion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 48)); // NOI18N
         jLabel1.setText("Urban Route");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
 
         BotonGuardarCambios.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         BotonGuardarCambios.setText("Guardar Cambios.");
-        getContentPane().add(BotonGuardarCambios, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, -1, -1));
+        BotonGuardarCambios.addActionListener(this::BotonGuardarCambiosActionPerformed);
+        getContentPane().add(BotonGuardarCambios, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, -1, -1));
 
         BotonVisualizadorGrafos.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         BotonVisualizadorGrafos.setText("Visualizador de Grafos.");
-        getContentPane().add(BotonVisualizadorGrafos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 100, -1, -1));
+        BotonVisualizadorGrafos.addActionListener(this::BotonVisualizadorGrafosActionPerformed);
+        getContentPane().add(BotonVisualizadorGrafos, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 100, -1, -1));
 
         BotonCargaEstaciones.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         BotonCargaEstaciones.setText("Cargar Estaciones y conexiones. (CSVs)");
         BotonCargaEstaciones.addActionListener(this::BotonCargaEstacionesActionPerformed);
-        getContentPane().add(BotonCargaEstaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, -1, -1));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 530, 440, 330));
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 170, 440, 330));
+        getContentPane().add(BotonCargaEstaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tsukushi B Round Gothic", 1, 18)); // NOI18N
         jLabel2.setText("Grafico.");
         jLabel2.setToolTipText("");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 150, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 20, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tsukushi B Round Gothic", 1, 18)); // NOI18N
         jLabel3.setText("Gestión de Conexiones.");
@@ -140,9 +150,10 @@ public class Main_interfa extends javax.swing.JFrame {
         getContentPane().add(ID_destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 260, 30));
         getContentPane().add(ID_Origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 260, 30));
 
-        Boton_de_Agregar_estacion.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        Boton_de_Agregar_estacion.setText("Eliminar Conexión.");
-        getContentPane().add(Boton_de_Agregar_estacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 870, -1, -1));
+        Boton_de_Eli_conexion.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        Boton_de_Eli_conexion.setText("Eliminar Conexión.");
+        Boton_de_Eli_conexion.addActionListener(this::Boton_de_Eli_conexionActionPerformed);
+        getContentPane().add(Boton_de_Eli_conexion, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 870, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tsukushi B Round Gothic", 1, 18)); // NOI18N
         jLabel6.setText("Ruta de Menor Tiempo ");
@@ -150,12 +161,13 @@ public class Main_interfa extends javax.swing.JFrame {
 
         Identificador_Hubs.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         Identificador_Hubs.setText("Identificar Hubs (Conexiones).");
+        Identificador_Hubs.addActionListener(this::Identificador_HubsActionPerformed);
         getContentPane().add(Identificador_Hubs, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 380, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        jButton2.setText("Detectar Subredes (DFS)");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
+        Detectar_Subredes.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        Detectar_Subredes.setText("Detectar Subredes (DFS)");
+        Detectar_Subredes.addActionListener(this::Detectar_SubredesActionPerformed);
+        getContentPane().add(Detectar_Subredes, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tsukushi B Round Gothic", 1, 18)); // NOI18N
         jLabel7.setText("Análisis de Red");
@@ -188,6 +200,7 @@ public class Main_interfa extends javax.swing.JFrame {
 
         Boton_de_ruta_optima.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         Boton_de_ruta_optima.setText("Calcular Ruta Óptima.");
+        Boton_de_ruta_optima.addActionListener(this::Boton_de_ruta_optimaActionPerformed);
         getContentPane().add(Boton_de_ruta_optima, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tsukushi B Round Gothic", 1, 18)); // NOI18N
@@ -209,12 +222,14 @@ public class Main_interfa extends javax.swing.JFrame {
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 830, -1, -1));
         getContentPane().add(Linea_Gestion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 830, 260, 30));
 
-        Boton_de_Agregar_estacion1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        Boton_de_Agregar_estacion1.setText("Eliminar Estación.");
-        getContentPane().add(Boton_de_Agregar_estacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 570, -1, -1));
+        Boton_de_Eliminar_estacion.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        Boton_de_Eliminar_estacion.setText("Eliminar Estación.");
+        Boton_de_Eliminar_estacion.addActionListener(this::Boton_de_Eliminar_estacionActionPerformed);
+        getContentPane().add(Boton_de_Eliminar_estacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 570, -1, -1));
 
-        jButton1.setText("Agregar Conexión.");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 870, -1, -1));
+        Boton_de_Agregar_conexion.setText("Agregar Conexión.");
+        Boton_de_Agregar_conexion.addActionListener(this::Boton_de_Agregar_conexionActionPerformed);
+        getContentPane().add(Boton_de_Agregar_conexion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 870, -1, -1));
 
         jSeparator1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jSeparator1.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -281,6 +296,7 @@ public class Main_interfa extends javax.swing.JFrame {
 
         Boton_de_Agregar_estacion2.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         Boton_de_Agregar_estacion2.setText("Agregar Estación.");
+        Boton_de_Agregar_estacion2.addActionListener(this::Boton_de_Agregar_estacion2ActionPerformed);
         getContentPane().add(Boton_de_Agregar_estacion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 660, -1, -1));
 
         jSeparator4.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
@@ -309,16 +325,437 @@ public class Main_interfa extends javax.swing.JFrame {
         jSeparator14.setVerifyInputWhenFocusTarget(false);
         getContentPane().add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, 10, 210));
 
+        jButton3.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        jButton3.setText("Salir.");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 890, 240, 40));
+
+        AMostrarGrafo.setBackground(new java.awt.Color(204, 204, 204));
+        getContentPane().add(AMostrarGrafo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 240, 850, 630));
+
+        AMostrarInformacion.setColumns(20);
+        AMostrarInformacion.setRows(5);
+        jScrollPane1.setViewportView(AMostrarInformacion);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 50, 850, 190));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Bot&oacute;n de Cargar Estaciones y conexiones.
+     * Abre una ventana (JFileChooser) para buscar primero el archivo CSV de las estaciones y luego 
+     * el de las conexiones. Si son los archivos correctos, se cargan los datos 
+     * principales en el grafo.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Cargar Estaciones y conexiones.
+     */
     private void BotonCargaEstacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCargaEstacionesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonCargaEstacionesActionPerformed
+        // Preguntar si desea guardar los cambios antes de cargar nuevos archivos
+        if(cambiosPendientes){
+            int guardar = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios actuales antes de cargar nuevos archivos?", "Guardar Cambios", JOptionPane.YES_NO_OPTION);
+            if (guardar == JOptionPane.YES_OPTION) {
+                this.BotonGuardarCambiosActionPerformed(evt); // Llama al boton que guarda los cambios.
+            }
+        }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        try{
+            JFileChooser cual_archivo = new JFileChooser();
+    
+            JOptionPane.showMessageDialog(this, "Seleccione el archivo de estaciones.", "Primer archivo.", JOptionPane.INFORMATION_MESSAGE);
+            cual_archivo.setDialogTitle("Seleccione el archivo de estaciones.");
+
+            // Abre el buscador para el primer archivo
+            if(cual_archivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                archivoEstacionesActual = cual_archivo.getSelectedFile();
+
+                // Mensaje y cambio de título para el SEGUNDO archivo
+                JOptionPane.showMessageDialog(this, "Archivo de estaciones seleccionado.\nAhora, seleccione el archivo de conexiones.", "Segundo archivo.", JOptionPane.INFORMATION_MESSAGE);
+                cual_archivo.setDialogTitle("Seleccione el archivo de conexiones.");
+
+                // Abre el buscador para el segundo archivo
+                if(cual_archivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                    archivoConexionesActual = cual_archivo.getSelectedFile();
+                    cargarDatosMaestros(); // Este método escribirá en la consola si fue exitoso o hubo error
+                }
+                else{
+                    this.AMostrarInformacion.setText("Operación cancelada: Faltó seleccionar el archivo de conexiones.");
+                }
+            }
+            else{
+                this.AMostrarInformacion.setText("Operación cancelada.");
+            }
+        }
+        catch(Throwable t){
+            this.AMostrarInformacion.setText("Error al cargar archivos CSV:\nVerifica que el archivo se estaciones y conexiones estén en la misma carpeta.\n" + t.getMessage());
+        }
+    }//GEN-LAST:event_BotonCargaEstacionesActionPerformed
+    
+    /**
+     * Bot&oacute;n detectar subredes.
+     * Utiliza un algoritmo de B&uacute;squeda en Profundidad (DFS) para detectar las subredes.
+     * Identifica si todas las estaciones están conectadas entre s&iacute; o 
+     * si hay l&iacute;neas separadas del resto del sistema.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n detectar subredes.
+     */
+    private void Detectar_SubredesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Detectar_SubredesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        //Verificamos los CSV.
+        if(grafo == null || grafo.getVertices().Tamano() == 0 || analizador == null){
+            this.AMostrarInformacion.setText("No hay datos en el sistema.\nPor favor, cargue los archivos CSV primero.");
+            return; // Detiene la ejecución para evitar errores
+        }
+
+        try{
+            this.AMostrarInformacion.setText("Calculando subredes usando DFS... Por favor espere.");
+            String resultadoDFS = analizador.detectarSubredesConexas();
+            this.AMostrarInformacion.setText("Subredes detectadas (DFS).\n" + resultadoDFS);
+
+        } catch (Exception e) {
+            this.AMostrarInformacion.setText("Error al detectar las subredes:\n" + e.getMessage());
+        }
+    }//GEN-LAST:event_Detectar_SubredesActionPerformed
+    
+    /**
+     * Bot&oacute;n para calcular la ruta &oacute;ptima.
+     * Se encarga de encontrar la ruta m&aacute;s r&aacute;pida. 
+     * Toma los IDs ingresados por el usuario en los campos de texto (origen y destino), 
+     * valida que no est&eacute;n vac&iacute;os, y se los pasa al analizador para que calcule 
+     * el tiempo de viaje &oacute;ptimo.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n calcular la ruta &oacute;ptima.
+     */
+    private void Boton_de_ruta_optimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_ruta_optimaActionPerformed
+        // TODO add your handling code here:
+        // Agarramos el texto ingresado por el usuario y eliminamos espacios extra
+        String origen = ID_Origen.getText().trim();
+        String destino = ID_destino.getText().trim();
+        // Verificamos que los archivos CSV ya se hayan cargado
+        if (grafo == null || grafo.getVertices().Tamano() == 0 || analizador == null) {
+            this.AMostrarInformacion.setText("ERROR: No hay datos en el sistema.\nPor favor, cargue los archivos CSV primero.");
+            return;
+        }
+        // Vemos si el usuario deho algo en blanco.
+        if(!origen.isEmpty() && !destino.isEmpty()){
+            try{
+                String resultado = analizador.calcularRutaOptima(origen, destino);
+                this.AMostrarInformacion.setText("Ruta de menor tiempo.\n" + resultado);
+                ID_Origen.setText("");
+                ID_destino.setText("");
+
+            }
+            catch (Exception e){
+                this.AMostrarInformacion.setText("Error al calcular la ruta:\n" + e.getMessage());
+            }
+        }
+        else{
+            this.AMostrarInformacion.setText("Por favor, escriba el ID de Origen y el ID de Destino antes de presionar el botón.");
+        }
+    }//GEN-LAST:event_Boton_de_ruta_optimaActionPerformed
+    
+    /**
+     * Bot&oacute;n Guardar Cambios.
+     * Guarda en los archivos CSV cualquier modificación realizada en el programa, 
+     * como la adici&oacute;n o eliminaci&oacute;n de estaciones y conexiones.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n gardar cambios.
+     */
+    private void BotonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGuardarCambiosActionPerformed
+        // TODO add your handling code here:
+        try {
+        // Escribe los datos en los CSV
+        Manejo_Archivos.guardarDatosCSV(archivoEstacionesActual, archivoConexionesActual, grafo);
+        //Para saber que esta todo guardado.
+        cambiosPendientes = false; 
+        this.AMostrarInformacion.setText("Los cambios se han guardado correctamente en los archivos.");
+        }
+        catch (Exception t){
+            // Si hay error o no deja reescribirlo, y se muestra el mensaje del error.
+            this.AMostrarInformacion.setText("Error al guardar:\n" + t.getMessage());
+        }
+    }//GEN-LAST:event_BotonGuardarCambiosActionPerformed
+    
+    /**
+     * Bot&oacute;n de Visualizador de Grafos.
+     * Actualiza el panel del grafo.
+     * Limpia el panel anterior y vuelve a usar el VisualizadorGrafoPanel 
+     * con los datos actuales.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Visualizador de Grafos.
+     */
+    private void BotonVisualizadorGrafosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVisualizadorGrafosActionPerformed
+        // TODO add your handling code here:
+        // El grafo tiene que existir y tener al menos una estación.
+        if(grafo != null && grafo.getVertices().Tamano() > 0) {
+
+            // Dejamos el espacio del grafico vacio.
+            this.AMostrarGrafo.removeAll();
+            this.AMostrarGrafo.setLayout(new java.awt.BorderLayout());
+            // Se vuelve a crear con los datos actualizados.
+            Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+            //Creamos el ScrollPane y le metemos el visualizador adentro
+            javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+
+            this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+            this.AMostrarGrafo.revalidate();
+            this.AMostrarGrafo.repaint();
+
+            this.AMostrarInformacion.setText("Gráfico actualizado manualmente.");
+
+        } else {
+            // Si le dan al botón antes de cargar los archivos o si el grafo está vacío
+            this.AMostrarInformacion.setText("No hay datos en el grafo para visualizar. Por favor, cargue los archivos CSV primero.");
+        }
+    }//GEN-LAST:event_BotonVisualizadorGrafosActionPerformed
+    
+    /**
+     * Bot&oacute;n Identificar Hubs.
+     * Busca y muestra las estaciones.
+     * Revisa el grafo para encontrar las estaciones que poseen la mayor cantidad 
+     * de conexiones con otras, representando as&iacute; los principales puntos de transferencia.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Identificar Hubs.
+     */
+    private void Identificador_HubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Identificador_HubsActionPerformed
+        // TODO add your handling code here:
+        if(grafo == null || grafo.getVertices().Tamano() == 0 || analizador == null){
+            this.AMostrarInformacion.setText("No hay datos en el sistema.\nPor favor, cargue los archivos CSV primero.");
+            return;
+        }
+
+        try{
+            String resultadoHubs = analizador.identificarHubsTransferencia();
+            this.AMostrarInformacion.setText("Hubs de la red (Estaciones más conectadas).\n" + resultadoHubs);
+
+        }
+        catch (Exception e){
+            this.AMostrarInformacion.setText("Error al identificar los hubs:\n" + e.getMessage());
+        }
+    }//GEN-LAST:event_Identificador_HubsActionPerformed
+
+    /**
+     * Bot&oacute;n Agregar Estación.
+     * Agarra los datos de los textos (ID, Nombre, Línea, Zona, Capacidad), 
+     * verifica que no existan campos vacíos y crea un nuevo objeto Estacion para 
+     * agregarlo al grafo.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Agregar Estaci&oacuten.
+     */
+    private void Boton_de_Agregar_estacion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_Agregar_estacion2ActionPerformed
+        // TODO add your handling code here:
+        if(grafo == null){
+            this.AMostrarInformacion.setText("El sistema no está inicializado. Cargue los archivos primero.");
+            return;
+        }
+
+        try{
+            String id = ID_Gestion.getText().trim();
+            String nombre = Nombre_Gestion.getText().trim();
+            String linea = Linea_Gestion.getText().trim();
+            String zona = Zona_Gestion.getText().trim();
+            String capacidad = Capacidad_Gestion.getText().trim();
+            int capacidaddd = Integer.parseInt(capacidad);
+            if (id.isEmpty() || nombre.isEmpty() || linea.isEmpty() || zona.isEmpty() || capacidad.isEmpty()) {
+                this.AMostrarInformacion.setText("Todos los campos (ID, Nombre, Línea, Zona y Capacidad) son obligatorios.");
+                return;
+            }
+            Estacion nueva = new Estacion(id, nombre, linea, zona, capacidaddd);
+            grafo.agregarEstacion(nueva);
+            cambiosPendientes = true;
+
+            // Actualizamos el grafico.
+            this.AMostrarGrafo.removeAll();
+            this.AMostrarGrafo.setLayout(new java.awt.BorderLayout());
+            Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+            javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+            scrollGrafo.setBorder(null); 
+            this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+            this.AMostrarGrafo.revalidate();
+            this.AMostrarGrafo.repaint();
+            
+            this.AMostrarInformacion.setText("Estación '" + nombre + "' agregada correctamente al grafo.\nRecuerde guardar los cambios.");
+            ID_Gestion.setText("");
+            Nombre_Gestion.setText("");
+            Linea_Gestion.setText("");
+            Zona_Gestion.setText("");
+            Capacidad_Gestion.setText("");
+
+        }
+        catch (NumberFormatException ex){
+            this.AMostrarInformacion.setText("Error de formato, la capacidad debe ser un número entero.");
+        }
+        catch (Exception e){
+            this.AMostrarInformacion.setText("ERROR al agregar estación: " + e.getMessage());
+        }
+    }//GEN-LAST:event_Boton_de_Agregar_estacion2ActionPerformed
+
+    /**
+     * Bot&oacute;n Eliminar Estaci&oacuten.
+     * Agarra el ID de una estación específica y la elimina completamente del grafo.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Eliminar Estaci&oacuten.
+     */
+    private void Boton_de_Eliminar_estacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_Eliminar_estacionActionPerformed
+        // TODO add your handling code here:
+        if(grafo == null || grafo.getVertices().Tamano() == 0){
+            this.AMostrarInformacion.setText("No hay datos en el sistema. Cargue los archivos primero.");
+            return;
+        }
+        try{
+            String idEliminar = AEliminarEstacion.getText().trim();
+
+            if(idEliminar.isEmpty()){
+                this.AMostrarInformacion.setText("Por favor, escriba el ID de la estación que desea eliminar.");
+                return;
+            }
+            boolean eliminado = grafo.eliminarEstacion(idEliminar);
+
+            if(eliminado){
+                cambiosPendientes = true;
+
+                this.AMostrarGrafo.removeAll();
+                this.AMostrarGrafo.setLayout(new java.awt.BorderLayout());
+                Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+                javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+                scrollGrafo.setBorder(null); 
+                this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+                this.AMostrarGrafo.revalidate();
+                this.AMostrarGrafo.repaint();
+
+                this.AMostrarInformacion.setText("La estación con ID '" + idEliminar + "' fue eliminada correctamente.\nRecuerde guardar los cambios.");
+                AEliminarEstacion.setText("");
+
+            }
+            else{
+                this.AMostrarInformacion.setText("No se encontró ninguna estación con el ID '" + idEliminar + "'.");
+            }
+
+        }
+        catch(Exception e){
+            this.AMostrarInformacion.setText("Al intentar eliminar la estación: " + e.getMessage());
+        }
+    }//GEN-LAST:event_Boton_de_Eliminar_estacionActionPerformed
+    
+    /**
+     * Bot&oacute;n Agregar Conexi&oacute;n.
+     * Recibe los ID de origen, destino y el tiempo de viaje ingresado 
+     * por el usuario, para hacer una nueva conexi&oacute;n entre dos 
+     * estaciones.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Agregar Conexi&oacute;n.
+     */
+    private void Boton_de_Agregar_conexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_Agregar_conexionActionPerformed
+        // TODO add your handling code here:
+        if(grafo == null || grafo.getVertices().Tamano() == 0){
+            this.AMostrarInformacion.setText("No hay estaciones en el sistema. Cargue los archivos primero.");
+            return;
+        }
+
+        try{
+            String idOrigen = ID_Gestion1.getText().trim();
+            String idDestino = Nombre_Gestion1.getText().trim();
+            String tiempoooo = Linea_Gestion1.getText().trim();
+
+
+            if(idOrigen.isEmpty() || idDestino.isEmpty() || tiempoooo.isEmpty()){
+                this.AMostrarInformacion.setText("Por favor, llene los campos de Origen, Destino y Tiempo.");
+                return;
+            }
+            double tiempo = Double.parseDouble(tiempoooo);
+            grafo.conectarEstaciones(idOrigen, idDestino, tiempo);
+            cambiosPendientes = true;
+            
+            // actualizamos el grafico.
+            this.AMostrarGrafo.removeAll();
+            this.AMostrarGrafo.setLayout(new java.awt.BorderLayout());
+            Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+            javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+            scrollGrafo.setBorder(null); 
+            this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+            this.AMostrarGrafo.revalidate();
+            this.AMostrarGrafo.repaint();
+
+            this.AMostrarInformacion.setText("Conexión agregada entre '" + idOrigen + "' y '" + idDestino + "'.\nRecuerde guardar los cambios.");
+            ID_Gestion1.setText("");
+            Nombre_Gestion1.setText("");
+            Linea_Gestion1.setText("");
+
+        }
+        catch(NumberFormatException ex){
+            this.AMostrarInformacion.setText("El tiempo debe ser un valor numérico.");
+        }
+        catch(Exception e){
+            this.AMostrarInformacion.setText("Error al agregar la conexión: " + e.getMessage());
+        }
+    }//GEN-LAST:event_Boton_de_Agregar_conexionActionPerformed
+    
+    /**
+     * Bot&oacute;n Eliminar Conexi&oacute;n.
+     * Agarra los IDs de las estaciones de origen y destino para eliminar 
+     * la conexión entre ellas.
+     * 
+     * @param evt El evento de presionar el bot&oacute;n Eliminar Conexi&oacute;n.
+     */
+    
+    private void Boton_de_Eli_conexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_Eli_conexionActionPerformed
+        // TODO add your handling code here:
+        if(grafo == null || grafo.getVertices().Tamano() == 0){
+            this.AMostrarInformacion.setText("No hay estaciones en el sistema. Cargue los archivos primero.");
+            return;
+        }
+
+        try{
+            String idOrigen = IDOrigenEliminar.getText().trim().toUpperCase();
+            String idDestino = IDDestinoEliminar.getText().trim().toUpperCase();
+            if(idOrigen.isEmpty() || idDestino.isEmpty()){
+                this.AMostrarInformacion.setText("Por favor, ingrese el ID de Origen y el ID de Destino para eliminar la conexión.");
+                return;
+            }
+            
+            boolean eliminado = grafo.eliminarConexion(idOrigen, idDestino);
+
+            if(eliminado){
+                cambiosPendientes = true;
+
+                this.AMostrarGrafo.removeAll();
+                this.AMostrarGrafo.setLayout(new java.awt.BorderLayout());
+                Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+                javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+                scrollGrafo.setBorder(null); 
+                this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+                this.AMostrarGrafo.revalidate();
+                this.AMostrarGrafo.repaint();
+
+                this.AMostrarInformacion.setText("La conexión entre '" + idOrigen + "' y '" + idDestino + "' fue eliminada correctamente.\nRecuerde guardar los cambios.");
+                IDOrigenEliminar.setText("");
+                IDDestinoEliminar.setText("");
+
+            }
+            else{
+                this.AMostrarInformacion.setText("No se encontró una conexión directa entre '" + idOrigen + "' y '" + idDestino + "'.");
+            }
+
+        }
+        catch(Exception e){
+            this.AMostrarInformacion.setText("ERROR al intentar eliminar la conexión: " + e.getMessage());
+        }
+    }//GEN-LAST:event_Boton_de_Eli_conexionActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        // Preguntar si desea guardar los cambios antes de salir del programa
+        if(cambiosPendientes){
+            int guardar = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios actuales antes de cargar nuevos archivos?", "Guardar Cambios", JOptionPane.YES_NO_OPTION);
+            if (guardar == JOptionPane.YES_OPTION) {
+                this.BotonGuardarCambiosActionPerformed(evt); // Llama al boton que guarda los cambios.
+            }
+        }
+        
+        // Cierra el programa.
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,17 +781,70 @@ public class Main_interfa extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Main_interfa().setVisible(true));
     }
+    
+    /**
+     * Se encarga de verificar los archivos seleccionados y muestra el grafico correspondiente.
+     * 
+     * Este método agarra los archivos y los envía a la clase de Manejo_Archivos para validarlos y extraer los datos. Si todo sale bien, 
+     * marca que no hay cambios pendientes, avisa al usuario cuántas estaciones se cargaron 
+     * y genera el mapa visual
+     * 
+     * En caso de que los archivos tengan algún problema,
+     * atrapa el error de inmediato, le informa al usuario qué salió mal y limpia el area
+     * donde va el grafo.
+     */
+    private void cargarDatosMaestros(){
+        try {
+        // Se verifican los archivos y si este método detecta que no son válidos, saltará directamente al "catch"
+        Manejo_Archivos.cargarDatosCompletos(archivoEstacionesActual, archivoConexionesActual, grafo);
+        cambiosPendientes = false;
+        
+        // muestra en la interfaz que estan bien.
+        this.AMostrarInformacion.setText("Archivos cargados y verificados correctamente.\n" 
+                + "Total estaciones: " + grafo.getVertices().Tamano());
+
+        // Mostramos el grafico.
+        this.AMostrarGrafo.removeAll(); 
+        this.AMostrarGrafo.setLayout(new java.awt.BorderLayout()); // para que ocupe todo el espacio.
+        
+        // Instanciamos tu clase visualizadora pasándole el grafo recién cargado
+        Visualizador_grafo_panel visualizador = new Visualizador_grafo_panel(grafo);
+        
+        //Creamos el ScrollPane y le metemos el visualizador adentro, para que se mueva.
+        javax.swing.JScrollPane scrollGrafo = new javax.swing.JScrollPane(visualizador);
+        
+
+        this.AMostrarGrafo.add(scrollGrafo, java.awt.BorderLayout.CENTER);
+        // Lo mostramos en la interfaz
+        this.AMostrarGrafo.revalidate();
+        this.AMostrarGrafo.repaint();
+
+        }
+        catch (Exception t){
+            // Si los archivos son incorrectos:
+            this.AMostrarInformacion.setText("Error al cargas los datos:\n" + t.getMessage());
+
+            // Como ocurrio un error, limpiamos el panel del grafico.
+            this.AMostrarGrafo.removeAll();
+            this.AMostrarGrafo.revalidate();
+            this.AMostrarGrafo.repaint();
+        }
+    }   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AEliminarEstacion;
+    private javax.swing.JPanel AMostrarGrafo;
+    private javax.swing.JTextArea AMostrarInformacion;
     private javax.swing.JButton BotonCargaEstaciones;
     private javax.swing.JButton BotonGuardarCambios;
     private javax.swing.JButton BotonVisualizadorGrafos;
-    private javax.swing.JButton Boton_de_Agregar_estacion;
-    private javax.swing.JButton Boton_de_Agregar_estacion1;
+    private javax.swing.JButton Boton_de_Agregar_conexion;
     private javax.swing.JButton Boton_de_Agregar_estacion2;
+    private javax.swing.JButton Boton_de_Eli_conexion;
+    private javax.swing.JButton Boton_de_Eliminar_estacion;
     private javax.swing.JButton Boton_de_ruta_optima;
     private javax.swing.JTextField Capacidad_Gestion;
+    private javax.swing.JButton Detectar_Subredes;
     private javax.swing.JTextField IDDestinoEliminar;
     private javax.swing.JTextField IDOrigenEliminar;
     private javax.swing.JTextField ID_Gestion;
@@ -367,8 +857,7 @@ public class Main_interfa extends javax.swing.JFrame {
     private javax.swing.JTextField Nombre_Gestion;
     private javax.swing.JTextField Nombre_Gestion1;
     private javax.swing.JTextField Zona_Gestion;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -389,7 +878,6 @@ public class Main_interfa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -404,7 +892,5 @@ public class Main_interfa extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,10 +5,6 @@
 package proyecto.estructura.de.datos;
 
 /**
- *
- * @author ricardopereira
- */
-/**
  * Tabla Hash personalizada para almacenar y usar las estaciones.
  * En lugar de buscar una por una, usamos una clave (como lo es el codigo de
  * la estaci&oacute;n), para saber donde est&aacute; guardada, y encontrarlo mas rapido,
@@ -16,28 +12,6 @@ package proyecto.estructura.de.datos;
  * @author Francisco Olivo, Johan Veracierto, Ricardo Pereira.
  */
 public class Hash_Estacioness {
-    
-/**
-* Clase interna privada que representa la clave - valor dentro de la tabla hash.
-* Establece una clave a su objeto Estacion correspondiente.
-*/
-    
-    private static class ElementoHash{
-        String clave;
-        Estacion estacion;
-        
-        /**
-         * Constructor básico para el elemento guardando su clave y su estación.
-         * 
-         * @param clave Texto que identifica la estaci&oacute;n (por ejemplo: PRO - Propatia.).
-         * @param estacion Objeto con los datos de la estación.
-         */
-        
-        ElementoHash(String clave, Estacion estacion){
-            this.clave = clave;
-            this.estacion = estacion;
-        }
-    }
     /**
      * Arreglo principal de listas enlazadas. 
      * Funciona como la estructura de casillas donde cada
@@ -136,7 +110,7 @@ public class Hash_Estacioness {
      * Busca la informaci&oacuten de una estaci&oacuten usando su 
      * clave.
      * 
-     * @param clave clave de la estaci\u00f3n que se quiere buscar.
+     * @param clave clave de la estaci&oacuten que se quiere buscar.
      * @return El objeto Estacion encontrado en la tabla, o null si la clave no 
      * existe o es nula.
      */
