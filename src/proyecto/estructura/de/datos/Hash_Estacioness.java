@@ -20,18 +20,25 @@ public class Hash_Estacioness {
      */
     private Lista<ElementoHash> [] tabla;
     /**
-     * Capacidad inicial y fija del arreglo de casillas. Se pone en 101 para
+     * Capacidad inicial y fija del arreglo de casillas. 
+     * Se pone en 101 para
      * poder distribuir de mejor forma los &iacute;ndices y minimizar colisiones.
+     * Se eligio el 101 ya que, es un n&uacute;mero primo e investigando sobre 
+     * tablas hash aprendimos que usar un
+     * número primo al sacar el m&oacute;dulo (% 101) ayuda a que los &iacute;ndices queden
+     * mejor repartidos, y tambien genera un buen margen de espacio ya que como la red base tiene
+     * 44 estaciones y ssí evitamos muchas colisiones
+     * y mantenemos las búsquedas rápidas en O(1).
      */
+
     private int capacidad = 101; 
     
-    /**
-     * Que hace {@code @SuppressWarnings("unchecked")}.
-     * Java no deja crear arreglos gen&eacute;ricos directos ya que (da error al compilar).
-     * Hacemos la conversi&oacute;n manual {@code (new Lista[capacidad])} y colocamos esta
-     * anotaci&oacute;n para decirle a Java que sabemos que la conversión es segura y no
-     * nos muestre advertencias en la consola.
-     */
+    //Que hace {@code @SuppressWarnings("unchecked")}.
+    //Java no deja crear arreglos gen&eacute;ricos directos ya que (da error al compilar).
+    //Hacemos la conversi&oacute;n manual {@code (new Lista[capacidad])} y colocamos esta
+    //anotación para decirle a Java que sabemos que la conversión es segura y no
+    //nos muestre advertencias en la consola.
+
     @SuppressWarnings("unchecked")
     /**
      * Crea la tabla hash con una lista enlazada vac&iacute;a en cada
@@ -47,12 +54,19 @@ public class Hash_Estacioness {
     /**
      * Funci&oacute;n Hash que convierte un texto en un &iacute;ndice dentro del 
      * arreglo.
-     * Utiliza el 31 para dispersar las letras del texto de forma uniforme y no 
-     * distingue may&uacute;asculas.
+     * 
+     * Utiliza el 31 para dispersar las letras del texto de forma uniforme, a su vez:
+     * Evita choques con letras repetidas ya que si solo sumáramos el valor de cada letra,
+     * c&iacute;digos con las mismas letras en distinto orden (como "CAR" y "ARC") dar&iacute;an
+     * el mismo resultado. Al ir multiplicando por 31 en cada paso, importa la
+     * posici&oacute;n de cada letra.
+     * Tambien el 31 es un n&uacute;mero primo
+     * impar que mezcla bien los valores sin perder informaci&oacute;n.
      * 
      * @param clave identificador de la estaci&oacute;n a procesar.
      * @return &iacute;ndice entre 0 y la capacidad menos 1.
      */
+
 
     private int funcionHash(String clave){
         int hash = 0;

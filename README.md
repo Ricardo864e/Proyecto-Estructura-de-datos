@@ -1,7 +1,7 @@
 # Proyecto-Estructura-de-datos
 # Urban Route - Optimización y Análisis de Redes de Transporte Multimodal
 > **Nota:** Todo el código fuente del proyecto se encuentra alojado en la rama **`master`**.
-Un sistema desarrollado en Java Swing para modelar, analizar y visualizar 
+* Es un proyecto desarrollado en Java Swing para modelar, analizar y visualizar 
 redes de transporte público multimodal mediante un grafo ponderado bidireccional 
 y una Tabla Hash personalizada[cite: 3, 5]. Permite calcular rutas de menor tiempo (Dijkstra), 
 detectar subredes aisladas tras contingencias (DFS) e identificar estaciones neurálgicas 

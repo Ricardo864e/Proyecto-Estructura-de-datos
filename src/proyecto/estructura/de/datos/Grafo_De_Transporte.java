@@ -64,7 +64,7 @@ public class Grafo_De_Transporte {
         Vertice aEliminar = null;
         for(int i = 0; i < vertices.Tamano(); i++){
             Vertice v = vertices.Agarrar(i);
-            if(v.getEstacion().getid().equals(id)){
+            if(v.getEstacion().getid().equalsIgnoreCase(id)){
                 aEliminar = v;
                 break;
             }

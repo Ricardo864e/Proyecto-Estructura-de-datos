@@ -106,6 +106,7 @@ public class AnalizadorRed {
         mensae.append("Origen: ").append(origen.getnombre()).append("\n");
         mensae.append("Destino: ").append(destino.getnombre()).append("\n");
         mensae.append("Tiempo Total Estimado: ").append(String.format("%.2f", distFinal)).append(" minutos\n\n");
+        // El format me redondea el numero con el 2f dice dos decimales y que es flotante, y me lo pasa a string.
         mensae.append("Trayecto Paso a Paso:\n");
 
         for (int i = camino.Tamano() - 1; i >= 0; i--){
