@@ -648,6 +648,7 @@ public class Main_interfa extends javax.swing.JFrame {
      */
     private void Boton_de_Agregar_conexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_de_Agregar_conexionActionPerformed
         // TODO add your handling code here:
+        
         if(grafo == null || grafo.getVertices().Tamano() == 0){
             this.AMostrarInformacion.setText("No hay estaciones en el sistema. Cargue los archivos primero.");
             return;
@@ -664,6 +665,10 @@ public class Main_interfa extends javax.swing.JFrame {
                 return;
             }
             double tiempo = Double.parseDouble(tiempoooo);
+            if(tiempo <= 0){
+                this.AMostrarInformacion.setText("El tiempo debe ser un número mayor que 0.");
+                return;
+            }
             grafo.conectarEstaciones(idOrigen, idDestino, tiempo);
             cambiosPendientes = true;
             
